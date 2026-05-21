@@ -573,12 +573,13 @@ function render() {
   const maxSim = {};
   ['Elementary','Middle','High'].forEach(t => { maxSim[t] = maxSimultaneous(t); });
 
-  // Extra slots remaining = max - currently scheduled (floor 0)
+  // Extra slots = how many more of each type fit in the REMAINING shared pool
+  // pairsRemaining already accounts for ALL scheduled schools across all types
   const extraSlots = {};
   ['Elementary','Middle','High'].forEach(t => {
-    extraSlots[t] = maxSim[t] !== null
-      ? Math.max(0, maxSim[t] - lists[t].length)
-      : 5;
+    if (!inventoryLoaded) { extraSlots[t] = 5; return; }
+    const pps = peakPairsPerSchool[t] || typeAvgs[t] || 100;
+    extraSlots[t] = Math.max(0, Math.floor(pairsRemaining / pps));
   });
 
   // Pool bar
@@ -596,14 +597,14 @@ function render() {
         : '';
   }
 
-  // Summary
+  // Summary — show current count and remaining capacity from shared pool
   ['Elementary','Middle','High'].forEach(t => {
     const sfx = t[0];
     const count = lists[t].length;
-    const max = maxSim[t];
+    const extra = extraSlots[t];
     document.getElementById('sum'+sfx).textContent = count;
-    document.getElementById('cap'+sfx).textContent = max !== null ? `/ ${max} max` : '';
-    document.getElementById('stat'+sfx).classList.toggle('warn', max !== null && count >= max);
+    document.getElementById('cap'+sfx).textContent = inventoryLoaded ? `+${extra} more` : '';
+    document.getElementById('stat'+sfx).classList.toggle('warn', inventoryLoaded && extra === 0);
   });
 
   renderSection('E', lists.Elementary, 'e', 'Elementary', extraSlots.Elementary, maxSim.Elementary);
