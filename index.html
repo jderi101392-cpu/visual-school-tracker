@@ -223,16 +223,19 @@ input[type=date],select{width:100%;padding:9px 12px;border:2px solid var(--borde
 </div>
 <script>
 const SIZES = ['J8','J9','J10','J11','J12','J13','1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16'];
+const LS_CSV = 'vst_csv_rows';
+const LS_INV = 'vst_inventory';
 
 // ── STATE ──
-let allRows       = [];   // all CSV rows (all years)
-let schoolHistory = {};   // { name: { type, avgTotal, years:{sy:total} } }
-let typeAvgs      = {};   // { Elementary: avg, Middle: avg, High: avg }
-let totalInventory = 0;   // from xlsx
+let allRows        = [];
+let schoolHistory  = {};
+let typeAvgs       = {};
+let peakPairsPerSchool = {}; // { Elementary: N, Middle: N, High: N } — from peak day simulation
+let totalInventory = 0;
 let inventoryLoaded = false;
-let typeFilter    = 'ALL';
-let dtRangeMode   = true;
-let selectedSY    = null; // currently selected school year (int, e.g. 2026)
+let typeFilter     = 'ALL';
+let dtRangeMode    = true;
+let selectedSY     = null;
 
 // ── DATE HELPERS ──
 function parseDate(str) {
@@ -258,11 +261,6 @@ function schoolYear(dateStr) {
 
 function syLabel(sy) { return `${sy}–${String(sy+1).slice(2)}`; }
 
-function isInSY(startStr, sy) {
-  const sy2 = schoolYear(startStr);
-  return sy2 === sy;
-}
-
 // ── CSV PARSE ──
 function parseCSV(text) {
   const lines = text.split(/\r?\n/).filter(l => l.trim());
@@ -273,7 +271,7 @@ function parseCSV(text) {
   const iType  = header.indexOf('School Type');
   const iTotal = header.indexOf('Total');
   if ([iStart,iEnd,iName,iType,iTotal].some(i => i===-1))
-    return { error: 'CSV missing required columns (Start Date, End Date, School Name, School Type, Total)' };
+    return { error: 'CSV missing required columns' };
 
   const rows = [];
   for (let i = 1; i < lines.length; i++) {
@@ -294,7 +292,6 @@ function parseCSV(text) {
     });
     const rawTotal = parseInt((cols[iTotal]||'').replace(/,/g,'')) || 0;
     const sizeSum  = Object.values(sizeTotals).reduce((a,b)=>a+b,0);
-    // Use size sum if total looks like a data error, otherwise use total column
     const total = (rawTotal > 1000 || rawTotal === 0) ? sizeSum : rawTotal;
     if (!start) continue;
     const sy = schoolYear(start);
@@ -304,9 +301,61 @@ function parseCSV(text) {
   return { rows };
 }
 
-// ── BUILD HISTORY & TYPE AVGS ──
+// ── PEAK DAY SIMULATION ──
+// Simulate every calendar day across all history.
+// Find the day with peak pairs-out per type.
+// pairs-per-school on that day = total pairs out / schools out.
+// This is the realistic "cost" of one school of that type.
+function buildPeakPairsPerSchool(rows) {
+  // Only use rows with actual totals
+  const validRows = rows.filter(r => r.total > 0 && parseDate(r.start) && parseDate(r.end));
+  if (!validRows.length) return { Elementary: 109, Middle: 82, High: 100 };
+
+  // Build daily totals per type
+  const daily = {}; // { 'YYYY-MM-DD': { Elementary:{schools,pairs}, Middle:{...}, High:{...} } }
+
+  validRows.forEach(r => {
+    let d = parseDate(r.start);
+    const end = parseDate(r.end);
+    while (d <= end) {
+      const key = d.toISOString().slice(0,10);
+      if (!daily[key]) daily[key] = {
+        Elementary:{schools:0,pairs:0},
+        Middle:{schools:0,pairs:0},
+        High:{schools:0,pairs:0}
+      };
+      daily[key][r.type].schools++;
+      daily[key][r.type].pairs += r.total;
+      d = new Date(d.getTime() + 86400000);
+    }
+  });
+
+  // Find peak pairs-out day per type
+  const peak = { Elementary:{schools:0,pairs:0}, Middle:{schools:0,pairs:0}, High:{schools:0,pairs:0} };
+  Object.values(daily).forEach(day => {
+    ['Elementary','Middle','High'].forEach(t => {
+      if (day[t].pairs > peak[t].pairs) peak[t] = {...day[t]};
+    });
+  });
+
+  // pairs-per-school = peak pairs / peak schools on that day
+  const result = {};
+  ['Elementary','Middle','High'].forEach(t => {
+    result[t] = peak[t].schools > 0
+      ? Math.round(peak[t].pairs / peak[t].schools)
+      : (t === 'Elementary' ? 109 : t === 'Middle' ? 82 : 100);
+  });
+  return result;
+}
+
+// ── MAX SIMULTANEOUS (scales with inventory) ──
+function maxSimultaneous(type) {
+  if (!inventoryLoaded || !peakPairsPerSchool[type]) return null;
+  return Math.floor(totalInventory / peakPairsPerSchool[type]);
+}
+
+// ── BUILD HISTORY ──
 function buildHistory(rows) {
-  // Group prior-year data per school → average across school years
   const bySchool = {};
   rows.forEach(r => {
     if (!bySchool[r.name]) bySchool[r.name] = { type: r.type, years: {} };
@@ -335,27 +384,26 @@ function buildTypeAvgs(rows) {
   return avgs;
 }
 
-// ── PAIRS CONSUMED PER SCHOOL ──
-// Priority: 1) actual sizes in current year row, 2) historical avg, 3) type avg
+// ── PAIRS FOR SCHOOL ──
 function pairsForSchool(row) {
-  // If this row has actual size data filled in, use it
   if (row.hasSizes && row.total > 0) return row.total;
-  // Otherwise use historical average for this school
   const hist = schoolHistory[row.name];
   if (hist && hist.avgTotal > 0) return hist.avgTotal;
-  // Fall back to type average
   return typeAvgs[row.type] || 100;
 }
 
 // ── YEAR SELECTOR ──
-function populateYearSelect(rows) {
+function populateYearSelect(rows, keepSelected) {
   const years = [...new Set(rows.map(r => r.sy))].sort((a,b) => b-a);
   const sel = document.getElementById('yearSelect');
+  const prev = keepSelected ? selectedSY : null;
   sel.innerHTML = years.map(sy =>
     `<option value="${sy}">${syLabel(sy)} School Year</option>`
   ).join('');
-  // Default to most recent year
-  if (years.length) {
+  if (prev && years.includes(prev)) {
+    selectedSY = prev;
+    sel.value = prev;
+  } else if (years.length) {
     selectedSY = years[0];
     sel.value = selectedSY;
   }
@@ -370,6 +418,35 @@ function onYearChange() {
     document.getElementById('topbarSub').textContent = `${syLabel(selectedSY)} School Year`;
   }
   render();
+}
+
+// ── PERSISTENCE ──
+function saveToStorage() {
+  try {
+    localStorage.setItem(LS_CSV, JSON.stringify(allRows));
+    localStorage.setItem(LS_INV, JSON.stringify(totalInventory));
+  } catch(e) { console.warn('Storage save failed', e); }
+}
+
+function loadFromStorage() {
+  try {
+    const csvData = localStorage.getItem(LS_CSV);
+    const invData = localStorage.getItem(LS_INV);
+    if (csvData) {
+      allRows = JSON.parse(csvData);
+      schoolHistory = buildHistory(allRows);
+      typeAvgs = buildTypeAvgs(allRows);
+      peakPairsPerSchool = buildPeakPairsPerSchool(allRows);
+      populateYearSelect(allRows, false);
+      showStatus(`✓ Restored from last session`, true);
+    }
+    if (invData) {
+      totalInventory = JSON.parse(invData);
+      inventoryLoaded = totalInventory > 0;
+      if (inventoryLoaded) showXlsxStatus(`✓ ${totalInventory.toLocaleString()} pairs (restored)`, true);
+    }
+    if (allRows.length) render();
+  } catch(e) { console.warn('Storage load failed', e); }
 }
 
 // ── XLSX HANDLING ──
@@ -387,12 +464,13 @@ function handleXlsx(file) {
         const tot = parseInt(String(row['Total']||'0').replace(/,/g,'')) || 0;
         if (SIZES.includes(sz) && tot > 0) total += tot;
       });
-      if (!total) { showXlsxStatus('Could not read inventory — check SIZE and Total columns', false); return; }
+      if (!total) { showXlsxStatus('Could not read — check SIZE and Total columns', false); return; }
       totalInventory = total;
       inventoryLoaded = true;
+      saveToStorage();
       showXlsxStatus(`✓ ${total.toLocaleString()} total pairs loaded`, true);
       if (allRows.length) render();
-    } catch(err) { showXlsxStatus('Error reading file: ' + err.message, false); }
+    } catch(err) { showXlsxStatus('Error: ' + err.message, false); }
   };
   reader.readAsArrayBuffer(file);
 }
@@ -415,7 +493,9 @@ function handleFile(file) {
     allRows = result.rows;
     schoolHistory = buildHistory(allRows);
     typeAvgs = buildTypeAvgs(allRows);
-    populateYearSelect(allRows);
+    peakPairsPerSchool = buildPeakPairsPerSchool(allRows);
+    populateYearSelect(allRows, false);
+    saveToStorage();
     const syRows = allRows.filter(r => r.sy === selectedSY);
     showStatus(`✓ Loaded ${syRows.length} schools for ${syLabel(selectedSY)}`, true);
     render();
@@ -474,32 +554,34 @@ function render() {
 
   const { from, to } = getDateFilter();
 
-  // Get current year schools that match date filter
   const sySchools = allRows.filter(r =>
     r.sy === selectedSY && schoolInRange(r, from, to)
   );
 
-  // Build per-type lists
   const lists = { Elementary: [], Middle: [], High: [] };
   sySchools.forEach(r => {
     if (typeFilter !== 'ALL' && r.type !== typeFilter) return;
     if (lists[r.type]) lists[r.type].push(r);
   });
 
-  // ── SHARED POOL CALC ──
-  // Total pairs consumed by all scheduled schools in this view
+  // Shared pool
   const allScheduled = [...lists.Elementary, ...lists.Middle, ...lists.High];
   const pairsConsumed = allScheduled.reduce((sum, r) => sum + pairsForSchool(r), 0);
   const pairsRemaining = inventoryLoaded ? Math.max(0, totalInventory - pairsConsumed) : null;
 
-  // How many more schools of each type can fit in remaining pool?
+  // Max simultaneous per type (scales with inventory via peak simulation)
+  const maxSim = {};
+  ['Elementary','Middle','High'].forEach(t => { maxSim[t] = maxSimultaneous(t); });
+
+  // Extra slots remaining = max - currently scheduled (floor 0)
   const extraSlots = {};
-  ['Elementary','Middle','High'].forEach(type => {
-    const avgPairs = typeAvgs[type] || 100;
-    extraSlots[type] = pairsRemaining !== null ? Math.floor(pairsRemaining / avgPairs) : 5;
+  ['Elementary','Middle','High'].forEach(t => {
+    extraSlots[t] = maxSim[t] !== null
+      ? Math.max(0, maxSim[t] - lists[t].length)
+      : 5;
   });
 
-  // Update pool bar
+  // Pool bar
   if (inventoryLoaded) {
     document.getElementById('poolCard').style.display = 'block';
     const pct = Math.min(100, Math.round((pairsConsumed / totalInventory) * 100));
@@ -509,24 +591,24 @@ function render() {
     document.getElementById('poolText').textContent =
       `${pairsConsumed.toLocaleString()} / ${totalInventory.toLocaleString()} pairs`;
     document.getElementById('poolRemaining').textContent =
-      pairsRemaining >= 0
-        ? `~${pairsRemaining.toLocaleString()} pairs remaining (≈${extraSlots.Elementary}E / ${extraSlots.Middle}M / ${extraSlots.High}H more schools)`
+      pairsRemaining !== null
+        ? `~${pairsRemaining.toLocaleString()} pairs remaining`
         : '';
   }
 
-  // Update summary counts
+  // Summary
   ['Elementary','Middle','High'].forEach(t => {
     const sfx = t[0];
     const count = lists[t].length;
+    const max = maxSim[t];
     document.getElementById('sum'+sfx).textContent = count;
-    document.getElementById('cap'+sfx).textContent =
-      inventoryLoaded ? `+${extraSlots[t]} more possible` : '';
-    document.getElementById('stat'+sfx).classList.toggle('warn', extraSlots[t] === 0);
+    document.getElementById('cap'+sfx).textContent = max !== null ? `/ ${max} max` : '';
+    document.getElementById('stat'+sfx).classList.toggle('warn', max !== null && count >= max);
   });
 
-  renderSection('E', lists.Elementary, 'e', 'Elementary', extraSlots.Elementary);
-  renderSection('M', lists.Middle,     'm', 'Middle',     extraSlots.Middle);
-  renderSection('H', lists.High,       'h', 'High',       extraSlots.High);
+  renderSection('E', lists.Elementary, 'e', 'Elementary', extraSlots.Elementary, maxSim.Elementary);
+  renderSection('M', lists.Middle,     'm', 'Middle',     extraSlots.Middle,     maxSim.Middle);
+  renderSection('H', lists.High,       'h', 'High',       extraSlots.High,       maxSim.High);
 }
 
 function blockCount(pairs) {
@@ -543,16 +625,15 @@ function abbrev(name) {
   return words.slice(0,3).map(w => w[0].toUpperCase()).join('');
 }
 
-function renderSection(sfx, schools, colorPfx, typeName, extraSlots) {
+function renderSection(sfx, schools, colorPfx, typeName, extraSlots, maxSim) {
   const blocksEl = document.getElementById('blocks'+sfx);
   const metaEl   = document.getElementById('meta'+sfx);
-  metaEl.textContent = `${schools.length} scheduled`;
+  metaEl.textContent = `${schools.length}${maxSim !== null ? ' / ' + maxSim : ''} scheduled`;
 
   const slotClass = colorPfx==='e'?'slot-e':colorPfx==='m'?'slot-m':'slot-h';
   const nearFull = extraSlots === 0;
   let html = '';
 
-  // Filled blocks
   schools.forEach(r => {
     const pairs = pairsForSchool(r);
     const n = blockCount(pairs);
@@ -561,14 +642,16 @@ function renderSection(sfx, schools, colorPfx, typeName, extraSlots) {
     const hasHistory = hist && hist.yearCount > 0;
     const initials = abbrev(r.name);
 
-    const sourceLabel = hasActual ? `Actual: ${r.total} pairs`
-      : hasHistory ? `Avg: ~${hist.avgTotal} pairs (${hist.yearCount} yr${hist.yearCount>1?'s':''})`
-      : `Type avg: ~${pairs} pairs`;
+    const sourceLabel = hasActual
+      ? `Actual: ${r.total} pairs`
+      : hasHistory
+        ? `Avg: ~${hist.avgTotal} pairs (${hist.yearCount} yr${hist.yearCount>1?'s':''})`
+        : `Type avg: ~${pairs} pairs`;
 
     const yearsList = hist
       ? Object.entries(hist.years).sort(([a],[b])=>a-b)
           .map(([yr,tot])=>`${yr}-${String(Number(yr)+1).slice(2)}: ${tot}`).join('<br>')
-      : 'No history';
+      : '';
 
     const tip = `<strong>${r.name}</strong><br>${r.start} → ${r.end}<br>${sourceLabel}`
       + (hasHistory && !hasActual ? `<br>${yearsList}` : '');
@@ -581,28 +664,29 @@ function renderSection(sfx, schools, colorPfx, typeName, extraSlots) {
     }
   });
 
-  // Empty slots — based on remaining pool capacity for this type
+  // Empty slots up to max
   const filledBlocks = schools.reduce((sum, r) => sum + blockCount(pairsForSchool(r)), 0);
-  // Show at most extraSlots empty slots, capped at a reasonable display number
-  const showEmpty = Math.min(extraSlots, Math.max(3, Math.ceil(filledBlocks * 0.5)));
+  const showEmpty = Math.min(extraSlots, 20); // cap display at 20 empty slots
   for (let i = 0; i < showEmpty; i++) {
-    const cls = nearFull ? 'slot-warn' : slotClass;
-    html += `<div class="block ${cls}"></div>`;
+    html += `<div class="block ${nearFull ? 'slot-warn' : slotClass}"></div>`;
   }
   if (extraSlots > showEmpty) {
-    html += `<div class="block" style="border:none;font-size:10px;color:var(--muted);width:auto;padding:0 4px">+${extraSlots - showEmpty} more</div>`;
+    html += `<div class="block" style="border:none;font-size:10px;color:var(--muted);width:auto;padding:0 4px">+${extraSlots - showEmpty}</div>`;
   }
 
   blocksEl.innerHTML = html;
 }
 
-// ── SERVICE WORKER ──
+// ── INIT ──
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('/visual-school-tracker/sw.js')
-      .catch(err => console.log('SW registration failed:', err));
+      .catch(err => console.log('SW failed:', err));
   });
 }
+
+// Load persisted data on startup
+loadFromStorage();
 </script>
 </body>
 </html>
