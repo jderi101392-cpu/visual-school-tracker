@@ -31,8 +31,8 @@
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:3rem}
 .app{max-width:480px;margin:0 auto}
 .topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:10px 14px;display:flex;align-items:center;gap:8px;position:sticky;top:0;z-index:100}
-.topbar-title{font-size:14px;font-weight:600;letter-spacing:.5px;flex-shrink:0}
-.topbar-sub{font-size:11px;color:var(--muted);flex-shrink:0}
+.topbar-title{font-size:14px;font-weight:600;letter-spacing:.5px}
+.topbar-sub{font-size:11px;color:var(--muted)}
 .upload-zone{border:2px dashed var(--border2);border-radius:var(--radius-lg);padding:20px;text-align:center;cursor:pointer;transition:all .2s;background:var(--surface);margin-bottom:12px}
 .upload-zone:hover,.upload-zone.drag{border-color:var(--blue-mid);background:var(--blue-bg);box-shadow:var(--glow-blue)}
 .upload-zone input{display:none}
@@ -59,7 +59,6 @@ input[type=date],select{width:100%;padding:9px 12px;border:2px solid var(--borde
 .chip.ce{border:2px solid var(--green-mid);color:var(--green);box-shadow:var(--glow-green)}
 .chip.cm{border:2px solid var(--blue-mid);color:var(--blue);box-shadow:var(--glow-blue)}
 .chip.ch{border:2px solid var(--yellow-mid);color:var(--yellow);box-shadow:var(--glow-yellow)}
-/* pool bar */
 .pool-bar-wrap{margin-bottom:10px}
 .pool-label{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:5px}
 .pool-label span:last-child{font-weight:600;color:var(--text)}
@@ -68,7 +67,6 @@ input[type=date],select{width:100%;padding:9px 12px;border:2px solid var(--borde
 .pool-fill.safe{background:var(--green-mid)}
 .pool-fill.warn{background:var(--yellow-mid)}
 .pool-fill.danger{background:var(--red-mid)}
-/* summary */
 .summary-bar{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px}
 .stat-box{background:var(--surface2);border-radius:var(--radius);padding:10px;text-align:center;border:1px solid var(--border)}
 .stat-num{font-size:20px;font-weight:600}
@@ -86,18 +84,18 @@ input[type=date],select{width:100%;padding:9px 12px;border:2px solid var(--borde
 .block{width:36px;height:36px;border-radius:6px;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:600;cursor:default;transition:all .15s;position:relative;letter-spacing:-.2px;line-height:1.1;text-align:center;flex-shrink:0}
 .block.has-school{cursor:pointer}
 .block.has-school:hover{transform:scale(1.1);z-index:10}
-.slot-e{background:var(--surface2);border:2px dashed var(--green-light);color:var(--green-light)}
-.slot-m{background:var(--surface2);border:2px dashed var(--blue-light);color:var(--blue-light)}
-.slot-h{background:var(--surface2);border:2px dashed var(--yellow-light);color:var(--yellow-light)}
-.slot-warn{background:var(--red-bg);border:2px dashed var(--red-mid);color:var(--red-mid)}
+.slot-e{background:var(--surface2);border:2px dashed var(--green-light)}
+.slot-m{background:var(--surface2);border:2px dashed var(--blue-light)}
+.slot-h{background:var(--surface2);border:2px dashed var(--yellow-light)}
+.slot-warn{background:var(--red-bg);border:2px dashed var(--red-mid)}
 .fe1{background:var(--green-bg);border:2px solid var(--green-mid);box-shadow:var(--glow-green);color:var(--green)}
-.fe2{background:#C0DD97;border:2px solid var(--green);box-shadow:var(--glow-green);color:var(--green)}
+.fe2{background:#C0DD97;border:2px solid var(--green);color:var(--green)}
 .fe3{background:var(--green);border:2px solid var(--green);color:#fff}
 .fm1{background:var(--blue-bg);border:2px solid var(--blue-mid);box-shadow:var(--glow-blue);color:var(--blue)}
-.fm2{background:#B5D4F4;border:2px solid var(--blue);box-shadow:var(--glow-blue);color:var(--blue)}
+.fm2{background:#B5D4F4;border:2px solid var(--blue);color:var(--blue)}
 .fm3{background:var(--blue);border:2px solid var(--blue);color:#fff}
 .fh1{background:var(--yellow-bg);border:2px solid var(--yellow-mid);box-shadow:var(--glow-yellow);color:var(--yellow)}
-.fh2{background:#FAC775;border:2px solid var(--yellow);box-shadow:var(--glow-yellow);color:var(--yellow)}
+.fh2{background:#FAC775;border:2px solid var(--yellow);color:var(--yellow)}
 .fh3{background:var(--yellow);border:2px solid var(--yellow);color:#fff}
 .tooltip{display:none;position:absolute;bottom:calc(100% + 7px);left:50%;transform:translateX(-50%);background:var(--text);color:var(--surface);font-size:10px;padding:6px 9px;border-radius:6px;z-index:20;pointer-events:none;line-height:1.5;min-width:130px;max-width:200px;white-space:normal}
 .tooltip::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:4px solid transparent;border-top-color:var(--text)}
@@ -121,7 +119,6 @@ input[type=date],select{width:100%;padding:9px 12px;border:2px solid var(--borde
 </div>
 <div class="section">
 
-  <!-- UPLOAD INVENTORY -->
   <div class="upload-zone" id="xlsxZone" onclick="document.getElementById('xlsxFile').click()" ondragover="onDragX(event,true)" ondragleave="onDragX(event,false)" ondrop="onDropX(event)">
     <input type="file" id="xlsxFile" accept=".xlsx" onchange="handleXlsx(this.files[0])">
     <div class="upload-icon">📊</div>
@@ -130,7 +127,6 @@ input[type=date],select{width:100%;padding:9px 12px;border:2px solid var(--borde
   </div>
   <div class="upload-status" id="xlsxStatus"></div>
 
-  <!-- UPLOAD CSV -->
   <div class="upload-zone" id="uploadZone" onclick="document.getElementById('csvFile').click()" ondragover="onDrag(event,true)" ondragleave="onDrag(event,false)" ondrop="onDrop(event)">
     <input type="file" id="csvFile" accept=".csv" onchange="handleFile(this.files[0])">
     <div class="upload-icon">📂</div>
@@ -139,9 +135,7 @@ input[type=date],select{width:100%;padding:9px 12px;border:2px solid var(--borde
   </div>
   <div class="upload-status" id="uploadStatus"></div>
 
-  <!-- FILTERS -->
   <div class="card">
-    <!-- Year selector -->
     <label>School Year</label>
     <select id="yearSelect" onchange="onYearChange()" style="margin-bottom:12px">
       <option value="">— upload CSV to populate —</option>
@@ -167,24 +161,21 @@ input[type=date],select{width:100%;padding:9px 12px;border:2px solid var(--borde
     </div>
   </div>
 
-  <!-- SHARED POOL BAR -->
   <div class="card" id="poolCard" style="display:none">
     <div class="pool-bar-wrap">
       <div class="pool-label"><span>Shared Inventory Pool</span><span id="poolText">0 / 0 pairs</span></div>
       <div class="pool-track"><div class="pool-fill safe" id="poolFill" style="width:0%"></div></div>
     </div>
-    <div style="font-size:11px;color:var(--muted);margin-top:2px" id="poolRemaining"></div>
+    <div style="font-size:11px;color:var(--muted);margin-top:4px" id="poolRemaining"></div>
   </div>
 
-  <!-- SUMMARY -->
   <div class="summary-bar">
     <div class="stat-box elem" id="statE"><div class="stat-num" id="sumE">0</div><div class="stat-sub" id="capE"></div><div class="stat-lbl">Elementary</div></div>
     <div class="stat-box mid"  id="statM"><div class="stat-num" id="sumM">0</div><div class="stat-sub" id="capM"></div><div class="stat-lbl">Middle</div></div>
     <div class="stat-box high" id="statH"><div class="stat-num" id="sumH">0</div><div class="stat-sub" id="capH"></div><div class="stat-lbl">High</div></div>
   </div>
 
-  <!-- TRACKER -->
-  <div class="card" id="trackerCard">
+  <div class="card">
     <div id="noDataState" class="no-data">
       <div class="no-data-icon">📋</div>
       <div class="no-data-title">No data loaded</div>
@@ -192,45 +183,42 @@ input[type=date],select{width:100%;padding:9px 12px;border:2px solid var(--borde
     </div>
     <div id="trackerContent" class="hidden">
       <div class="tracker-section">
-        <div class="tracker-header">
-          <span class="tracker-label" style="color:var(--green)">Elementary</span>
-          <span class="tracker-meta" id="metaE"></span>
-        </div>
+        <div class="tracker-header"><span class="tracker-label" style="color:var(--green)">Elementary</span><span class="tracker-meta" id="metaE"></span></div>
         <div class="tracker-blocks" id="blocksE"></div>
       </div>
       <div class="tracker-section">
-        <div class="tracker-header">
-          <span class="tracker-label" style="color:var(--blue)">Middle</span>
-          <span class="tracker-meta" id="metaM"></span>
-        </div>
+        <div class="tracker-header"><span class="tracker-label" style="color:var(--blue)">Middle</span><span class="tracker-meta" id="metaM"></span></div>
         <div class="tracker-blocks" id="blocksM"></div>
       </div>
       <div class="tracker-section">
-        <div class="tracker-header">
-          <span class="tracker-label" style="color:var(--yellow)">High</span>
-          <span class="tracker-meta" id="metaH"></span>
-        </div>
+        <div class="tracker-header"><span class="tracker-label" style="color:var(--yellow)">High</span><span class="tracker-meta" id="metaH"></span></div>
         <div class="tracker-blocks" id="blocksH"></div>
       </div>
-      <div class="legend">
-        1 block = 1–120 pairs &nbsp;·&nbsp; 2 = 121–240 &nbsp;·&nbsp; 3 = 241+<br>
-        Dashed = open slot &nbsp;·&nbsp; Hover a block for school details
-      </div>
+      <div class="legend">1 block = 1–120 pairs &nbsp;·&nbsp; 2 = 121–240 &nbsp;·&nbsp; 3 = 241+<br>Dashed = open slot &nbsp;·&nbsp; Hover for school details</div>
     </div>
   </div>
 
 </div>
 </div>
 <script>
-const SIZES = ['J8','J9','J10','J11','J12','J13','1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16'];
-const LS_CSV = 'vst_csv_rows';
-const LS_INV = 'vst_inventory';
+// ── VERSION — bump this to bust localStorage cache ──
+const APP_VERSION = 'v4';
+const LS_CSV = 'vst_csv_' + APP_VERSION;
+const LS_INV = 'vst_inv_' + APP_VERSION;
 
-// ── STATE ──
+// Clear any old version keys
+Object.keys(localStorage).forEach(k => {
+  if ((k.startsWith('vst_csv_') || k.startsWith('vst_inv_') || k === 'vst_csv_rows' || k === 'vst_inventory') && k !== LS_CSV && k !== LS_INV) {
+    localStorage.removeItem(k);
+  }
+});
+
+const SIZES = ['J8','J9','J10','J11','J12','J13','1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16'];
+
 let allRows        = [];
 let schoolHistory  = {};
 let typeAvgs       = {};
-let peakPairsPerSchool = {}; // { Elementary: N, Middle: N, High: N } — from peak day simulation
+let peakPPS        = {}; // peak pairs-per-school per type from simulation
 let totalInventory = 0;
 let inventoryLoaded = false;
 let typeFilter     = 'ALL';
@@ -243,192 +231,134 @@ function parseDate(str) {
   str = str.trim();
   if (/^\d{4}-\d{2}-\d{2}$/.test(str)) {
     const [y,m,d] = str.split('-').map(Number);
-    return new Date(y, m-1, d);
+    return new Date(y,m-1,d);
   }
-  const parts = str.split('/');
-  if (parts.length < 3) return null;
-  let [m,d,y] = parts.map(Number);
+  const p = str.split('/');
+  if (p.length < 3) return null;
+  let [m,d,y] = p.map(Number);
   if (y < 100) y += 2000;
-  return new Date(y, m-1, d);
+  return new Date(y,m-1,d);
 }
-
-function schoolYear(dateStr) {
-  const dt = parseDate(dateStr);
+function schoolYear(s) {
+  const dt = parseDate(s);
   if (!dt) return null;
-  const m = dt.getMonth() + 1, y = dt.getFullYear();
-  return m >= 6 ? y : y - 1;
+  const m = dt.getMonth()+1, y = dt.getFullYear();
+  return m >= 6 ? y : y-1;
 }
-
-function syLabel(sy) { return `${sy}–${String(sy+1).slice(2)}`; }
+function syLabel(sy) { return sy + '–' + String(sy+1).slice(2); }
 
 // ── CSV PARSE ──
 function parseCSV(text) {
   const lines = text.split(/\r?\n/).filter(l => l.trim());
-  const header = lines[0].split(',').map(h => h.trim());
-  const iStart = header.indexOf('Start Date');
-  const iEnd   = header.indexOf('End Date');
-  const iName  = header.indexOf('School Name');
-  const iType  = header.indexOf('School Type');
-  const iTotal = header.indexOf('Total');
-  if ([iStart,iEnd,iName,iType,iTotal].some(i => i===-1))
-    return { error: 'CSV missing required columns' };
-
+  const hdr = lines[0].split(',').map(h => h.trim());
+  const iS = hdr.indexOf('Start Date'), iE = hdr.indexOf('End Date');
+  const iN = hdr.indexOf('School Name'), iT = hdr.indexOf('School Type');
+  const iTot = hdr.indexOf('Total');
+  if ([iS,iE,iN,iT,iTot].some(i => i===-1)) return {error:'CSV missing required columns'};
   const rows = [];
   for (let i = 1; i < lines.length; i++) {
-    const cols = lines[i].split(',');
-    const name  = (cols[iName]||'').trim();
-    const type  = (cols[iType]||'').trim();
-    const start = (cols[iStart]||'').trim();
-    const end   = (cols[iEnd]||'').trim();
-    if (!name || !type || !['Elementary','Middle','High'].includes(type)) continue;
-    const sizeTotals = {};
-    let hasSizes = false;
-    SIZES.forEach(sz => {
-      const idx = header.indexOf(sz);
-      const raw = idx >= 0 ? (cols[idx]||'').trim().replace(/,/g,'') : '';
-      const v = parseInt(raw) || 0;
-      sizeTotals[sz] = v > 100 ? 0 : v;
-      if (sizeTotals[sz] > 0) hasSizes = true;
+    const c = lines[i].split(',');
+    const name = (c[iN]||'').trim(), type = (c[iT]||'').trim();
+    const start = (c[iS]||'').trim(), end = (c[iE]||'').trim();
+    if (!name || !['Elementary','Middle','High'].includes(type)) continue;
+    const sz = {}; let hasSizes = false;
+    SIZES.forEach(s => {
+      const idx = hdr.indexOf(s);
+      const v = idx>=0 ? Math.min(100, parseInt((c[idx]||'').replace(/,/g,''))||0) : 0;
+      sz[s] = v; if (v>0) hasSizes = true;
     });
-    const rawTotal = parseInt((cols[iTotal]||'').replace(/,/g,'')) || 0;
-    const sizeSum  = Object.values(sizeTotals).reduce((a,b)=>a+b,0);
-    const total = (rawTotal > 1000 || rawTotal === 0) ? sizeSum : rawTotal;
-    if (!start) continue;
+    const rawTot = parseInt((c[iTot]||'').replace(/,/g,''))||0;
+    const szSum = Object.values(sz).reduce((a,b)=>a+b,0);
+    const total = (rawTot > 1000 || rawTot === 0) ? szSum : rawTot;
     const sy = schoolYear(start);
-    if (!sy) continue;
-    rows.push({ name, type, start, end, total, sizeTotals, hasSizes, sy });
+    if (!sy || !start) continue;
+    rows.push({name,type,start,end,total,sz,hasSizes,sy});
   }
-  return { rows };
+  return {rows};
 }
 
 // ── PEAK DAY SIMULATION ──
-// Simulate every calendar day across all history.
-// Find the day with peak pairs-out per type.
-// pairs-per-school on that day = total pairs out / schools out.
-// This is the realistic "cost" of one school of that type.
-function buildPeakPairsPerSchool(rows) {
-  // Only use rows with actual totals
-  const validRows = rows.filter(r => r.total > 0 && parseDate(r.start) && parseDate(r.end));
-  if (!validRows.length) return { Elementary: 109, Middle: 82, High: 100 };
-
-  // Build daily totals per type
-  const daily = {}; // { 'YYYY-MM-DD': { Elementary:{schools,pairs}, Middle:{...}, High:{...} } }
-
-  validRows.forEach(r => {
+// Find peak pairs-out per type across all history.
+// peakPPS[type] = peak pairs out / schools out on that day.
+// This is the realistic inventory cost per school of that type.
+function buildPeakPPS(rows) {
+  const valid = rows.filter(r => r.total > 0 && parseDate(r.start) && parseDate(r.end));
+  if (!valid.length) return {Elementary:109,Middle:82,High:100};
+  const daily = {};
+  valid.forEach(r => {
     let d = parseDate(r.start);
     const end = parseDate(r.end);
     while (d <= end) {
-      const key = d.toISOString().slice(0,10);
-      if (!daily[key]) daily[key] = {
-        Elementary:{schools:0,pairs:0},
-        Middle:{schools:0,pairs:0},
-        High:{schools:0,pairs:0}
-      };
-      daily[key][r.type].schools++;
-      daily[key][r.type].pairs += r.total;
-      d = new Date(d.getTime() + 86400000);
+      const k = d.toISOString().slice(0,10);
+      if (!daily[k]) daily[k] = {Elementary:{s:0,p:0},Middle:{s:0,p:0},High:{s:0,p:0}};
+      daily[k][r.type].s++;
+      daily[k][r.type].p += r.total;
+      d = new Date(d.getTime()+86400000);
     }
   });
-
-  // Find peak pairs-out day per type
-  const peak = { Elementary:{schools:0,pairs:0}, Middle:{schools:0,pairs:0}, High:{schools:0,pairs:0} };
+  const peak = {Elementary:{s:0,p:0},Middle:{s:0,p:0},High:{s:0,p:0}};
   Object.values(daily).forEach(day => {
     ['Elementary','Middle','High'].forEach(t => {
-      if (day[t].pairs > peak[t].pairs) peak[t] = {...day[t]};
+      if (day[t].p > peak[t].p) peak[t] = {...day[t]};
     });
   });
-
-  // pairs-per-school = peak pairs / peak schools on that day
   const result = {};
   ['Elementary','Middle','High'].forEach(t => {
-    result[t] = peak[t].schools > 0
-      ? Math.round(peak[t].pairs / peak[t].schools)
-      : (t === 'Elementary' ? 109 : t === 'Middle' ? 82 : 100);
+    result[t] = peak[t].s > 0 ? Math.round(peak[t].p / peak[t].s) : 100;
   });
   return result;
 }
 
-// ── MAX SIMULTANEOUS (scales with inventory) ──
-function maxSimultaneous(type) {
-  if (!inventoryLoaded || !peakPairsPerSchool[type]) return null;
-  return Math.floor(totalInventory / peakPairsPerSchool[type]);
-}
-
-// ── BUILD HISTORY ──
 function buildHistory(rows) {
-  const bySchool = {};
+  const by = {};
   rows.forEach(r => {
-    if (!bySchool[r.name]) bySchool[r.name] = { type: r.type, years: {} };
-    if (!bySchool[r.name].years[r.sy]) bySchool[r.name].years[r.sy] = 0;
-    bySchool[r.name].years[r.sy] += r.total;
+    if (!by[r.name]) by[r.name] = {type:r.type,years:{}};
+    if (!by[r.name].years[r.sy]) by[r.name].years[r.sy] = 0;
+    by[r.name].years[r.sy] += r.total;
   });
-  const hist = {};
-  Object.entries(bySchool).forEach(([name, data]) => {
-    const vals = Object.values(data.years).filter(v => v > 0);
-    hist[name] = {
-      type: data.type,
-      avgTotal: vals.length ? Math.round(vals.reduce((a,b)=>a+b,0)/vals.length) : 0,
-      yearCount: vals.length,
-      years: data.years
-    };
+  const h = {};
+  Object.entries(by).forEach(([name,data]) => {
+    const vals = Object.values(data.years).filter(v=>v>0);
+    h[name] = {type:data.type, avgTotal:vals.length?Math.round(vals.reduce((a,b)=>a+b,0)/vals.length):0, yearCount:vals.length, years:data.years};
   });
-  return hist;
+  return h;
 }
 
 function buildTypeAvgs(rows) {
-  const avgs = {};
-  ['Elementary','Middle','High'].forEach(type => {
-    const tr = rows.filter(r => r.type === type && r.total > 0);
-    avgs[type] = tr.length ? Math.round(tr.reduce((s,r)=>s+r.total,0)/tr.length) : 100;
+  const a = {};
+  ['Elementary','Middle','High'].forEach(t => {
+    const tr = rows.filter(r=>r.type===t&&r.total>0);
+    a[t] = tr.length ? Math.round(tr.reduce((s,r)=>s+r.total,0)/tr.length) : 100;
   });
-  return avgs;
+  return a;
 }
 
-// ── PAIRS FOR SCHOOL ──
-function pairsForSchool(row) {
+function pairsFor(row) {
   if (row.hasSizes && row.total > 0) return row.total;
-  const hist = schoolHistory[row.name];
-  if (hist && hist.avgTotal > 0) return hist.avgTotal;
+  const h = schoolHistory[row.name];
+  if (h && h.avgTotal > 0) return h.avgTotal;
   return typeAvgs[row.type] || 100;
 }
 
 // ── YEAR SELECTOR ──
-function populateYearSelect(rows, keepSelected) {
-  const years = [...new Set(rows.map(r => r.sy))].sort((a,b) => b-a);
+function populateYearSelect(rows) {
+  const years = [...new Set(rows.map(r=>r.sy))].sort((a,b)=>b-a);
   const sel = document.getElementById('yearSelect');
-  const prev = keepSelected ? selectedSY : null;
-  sel.innerHTML = years.map(sy =>
-    `<option value="${sy}">${syLabel(sy)} School Year</option>`
-  ).join('');
-  if (prev && years.includes(prev)) {
-    selectedSY = prev;
-    sel.value = prev;
-  } else if (years.length) {
-    selectedSY = years[0];
-    sel.value = selectedSY;
-  }
-  document.getElementById('topbarSub').textContent =
-    selectedSY ? `${syLabel(selectedSY)} School Year` : '';
+  sel.innerHTML = years.map(sy=>`<option value="${sy}">${syLabel(sy)} School Year</option>`).join('');
+  if (years.length) { selectedSY = years[0]; sel.value = selectedSY; }
+  document.getElementById('topbarSub').textContent = selectedSY ? syLabel(selectedSY)+' School Year' : '';
 }
-
 function onYearChange() {
-  const val = parseInt(document.getElementById('yearSelect').value);
-  if (!isNaN(val)) {
-    selectedSY = val;
-    document.getElementById('topbarSub').textContent = `${syLabel(selectedSY)} School Year`;
-  }
+  const v = parseInt(document.getElementById('yearSelect').value);
+  if (!isNaN(v)) { selectedSY = v; document.getElementById('topbarSub').textContent = syLabel(v)+' School Year'; }
   render();
 }
 
 // ── PERSISTENCE ──
-function saveToStorage() {
-  try {
-    localStorage.setItem(LS_CSV, JSON.stringify(allRows));
-    localStorage.setItem(LS_INV, JSON.stringify(totalInventory));
-  } catch(e) { console.warn('Storage save failed', e); }
+function save() {
+  try { localStorage.setItem(LS_CSV, JSON.stringify(allRows)); localStorage.setItem(LS_INV, JSON.stringify(totalInventory)); } catch(e){}
 }
-
-function loadFromStorage() {
+function loadSaved() {
   try {
     const csvData = localStorage.getItem(LS_CSV);
     const invData = localStorage.getItem(LS_INV);
@@ -436,54 +366,47 @@ function loadFromStorage() {
       allRows = JSON.parse(csvData);
       schoolHistory = buildHistory(allRows);
       typeAvgs = buildTypeAvgs(allRows);
-      peakPairsPerSchool = buildPeakPairsPerSchool(allRows);
-      populateYearSelect(allRows, false);
-      showStatus(`✓ Restored from last session`, true);
+      peakPPS = buildPeakPPS(allRows);
+      populateYearSelect(allRows);
+      showStatus('✓ Restored from last session', true);
     }
     if (invData) {
       totalInventory = JSON.parse(invData);
       inventoryLoaded = totalInventory > 0;
-      if (inventoryLoaded) showXlsxStatus(`✓ ${totalInventory.toLocaleString()} pairs (restored)`, true);
+      if (inventoryLoaded) showXlsxStatus('✓ '+totalInventory.toLocaleString()+' pairs (restored)', true);
     }
     if (allRows.length) render();
-  } catch(e) { console.warn('Storage load failed', e); }
+  } catch(e){}
 }
 
-// ── XLSX HANDLING ──
+// ── XLSX ──
 function handleXlsx(file) {
   if (!file) return;
   const reader = new FileReader();
   reader.onload = e => {
     try {
-      const wb = XLSX.read(e.target.result, { type: 'array' });
+      const wb = XLSX.read(e.target.result,{type:'array'});
       const ws = wb.Sheets[wb.SheetNames[0]];
-      const data = XLSX.utils.sheet_to_json(ws, { defval: '' });
+      const data = XLSX.utils.sheet_to_json(ws,{defval:''});
       let total = 0;
       data.forEach(row => {
-        const sz  = String(row['SIZE']||'').trim();
-        const tot = parseInt(String(row['Total']||'0').replace(/,/g,'')) || 0;
-        if (SIZES.includes(sz) && tot > 0) total += tot;
+        const sz = String(row['SIZE']||'').trim();
+        const t = parseInt(String(row['Total']||'0').replace(/,/g,''))||0;
+        if (SIZES.includes(sz) && t > 0) total += t;
       });
       if (!total) { showXlsxStatus('Could not read — check SIZE and Total columns', false); return; }
-      totalInventory = total;
-      inventoryLoaded = true;
-      saveToStorage();
-      showXlsxStatus(`✓ ${total.toLocaleString()} total pairs loaded`, true);
+      totalInventory = total; inventoryLoaded = true; save();
+      showXlsxStatus('✓ '+total.toLocaleString()+' total pairs loaded', true);
       if (allRows.length) render();
-    } catch(err) { showXlsxStatus('Error: ' + err.message, false); }
+    } catch(err) { showXlsxStatus('Error: '+err.message, false); }
   };
   reader.readAsArrayBuffer(file);
 }
+function showXlsxStatus(msg,ok){const el=document.getElementById('xlsxStatus');el.textContent=msg;el.className='upload-status '+(ok?'ok':'err');}
+function onDragX(e,over){e.preventDefault();document.getElementById('xlsxZone').classList.toggle('drag',over);}
+function onDropX(e){e.preventDefault();document.getElementById('xlsxZone').classList.remove('drag');if(e.dataTransfer.files[0])handleXlsx(e.dataTransfer.files[0]);}
 
-function showXlsxStatus(msg, ok) {
-  const el = document.getElementById('xlsxStatus');
-  el.textContent = msg;
-  el.className = 'upload-status ' + (ok ? 'ok' : 'err');
-}
-function onDragX(e, over) { e.preventDefault(); document.getElementById('xlsxZone').classList.toggle('drag', over); }
-function onDropX(e) { e.preventDefault(); document.getElementById('xlsxZone').classList.remove('drag'); if(e.dataTransfer.files[0]) handleXlsx(e.dataTransfer.files[0]); }
-
-// ── CSV HANDLING ──
+// ── CSV ──
 function handleFile(file) {
   if (!file) return;
   const reader = new FileReader();
@@ -493,201 +416,155 @@ function handleFile(file) {
     allRows = result.rows;
     schoolHistory = buildHistory(allRows);
     typeAvgs = buildTypeAvgs(allRows);
-    peakPairsPerSchool = buildPeakPairsPerSchool(allRows);
-    populateYearSelect(allRows, false);
-    saveToStorage();
-    const syRows = allRows.filter(r => r.sy === selectedSY);
-    showStatus(`✓ Loaded ${syRows.length} schools for ${syLabel(selectedSY)}`, true);
+    peakPPS = buildPeakPPS(allRows);
+    populateYearSelect(allRows);
+    save();
+    showStatus('✓ Loaded '+allRows.filter(r=>r.sy===selectedSY).length+' schools for '+syLabel(selectedSY), true);
     render();
   };
   reader.readAsText(file);
 }
-
-function showStatus(msg, ok) {
-  const el = document.getElementById('uploadStatus');
-  el.textContent = msg;
-  el.className = 'upload-status ' + (ok ? 'ok' : 'err');
-}
-function onDrag(e, over) { e.preventDefault(); document.getElementById('uploadZone').classList.toggle('drag', over); }
-function onDrop(e) { e.preventDefault(); document.getElementById('uploadZone').classList.remove('drag'); if(e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]); }
+function showStatus(msg,ok){const el=document.getElementById('uploadStatus');el.textContent=msg;el.className='upload-status '+(ok?'ok':'err');}
+function onDrag(e,over){e.preventDefault();document.getElementById('uploadZone').classList.toggle('drag',over);}
+function onDrop(e){e.preventDefault();document.getElementById('uploadZone').classList.remove('drag');if(e.dataTransfer.files[0])handleFile(e.dataTransfer.files[0]);}
 
 // ── DATE FILTER ──
-function toggleDtMode() {
-  dtRangeMode = !dtRangeMode;
-  document.getElementById('dtToggle').classList.toggle('on', dtRangeMode);
-  const lbl = document.getElementById('dtLabel');
-  lbl.classList.toggle('on', dtRangeMode);
-  lbl.textContent = dtRangeMode ? 'Date range' : 'Single date';
-  document.getElementById('dtRange').classList.toggle('hidden', !dtRangeMode);
-  document.getElementById('dtSingle').classList.toggle('hidden', dtRangeMode);
+function toggleDtMode(){
+  dtRangeMode=!dtRangeMode;
+  document.getElementById('dtToggle').classList.toggle('on',dtRangeMode);
+  const lbl=document.getElementById('dtLabel');lbl.classList.toggle('on',dtRangeMode);
+  lbl.textContent=dtRangeMode?'Date range':'Single date';
+  document.getElementById('dtRange').classList.toggle('hidden',!dtRangeMode);
+  document.getElementById('dtSingle').classList.toggle('hidden',dtRangeMode);
   render();
 }
-
-function setFilter(f, btn) {
-  typeFilter = f;
-  document.querySelectorAll('.filter-row .chip').forEach(b => b.className='chip');
+function setFilter(f,btn){
+  typeFilter=f;
+  document.querySelectorAll('.filter-row .chip').forEach(b=>b.className='chip');
   btn.classList.add(f==='ALL'?'ca':f==='Elementary'?'ce':f==='Middle'?'cm':'ch');
   render();
 }
-
-function getDateFilter() {
-  if (dtRangeMode) return { from: document.getElementById('dtFrom').value, to: document.getElementById('dtTo').value };
-  const d = document.getElementById('dtOne').value;
-  return { from: d, to: d };
+function getDateFilter(){
+  if(dtRangeMode) return {from:document.getElementById('dtFrom').value,to:document.getElementById('dtTo').value};
+  const d=document.getElementById('dtOne').value; return {from:d,to:d};
 }
-
-function schoolInRange(row, from, to) {
-  if (!from && !to) return true;
-  const s = parseDate(row.start), e = parseDate(row.end);
-  const f = from ? parseDate(from) : null;
-  const t = to   ? parseDate(to)   : null;
-  if (f && e && e < f) return false;
-  if (t && s && s > t) return false;
+function inRange(row,from,to){
+  if(!from&&!to) return true;
+  const s=parseDate(row.start),e=parseDate(row.end);
+  const f=from?parseDate(from):null,t=to?parseDate(to):null;
+  if(f&&e&&e<f) return false;
+  if(t&&s&&s>t) return false;
   return true;
 }
 
 // ── RENDER ──
-function render() {
-  if (!allRows.length || !selectedSY) return;
+function render(){
+  if(!allRows.length||!selectedSY) return;
   document.getElementById('noDataState').classList.add('hidden');
   document.getElementById('trackerContent').classList.remove('hidden');
 
-  const { from, to } = getDateFilter();
+  const {from,to} = getDateFilter();
+  const syRows = allRows.filter(r => r.sy===selectedSY && inRange(r,from,to));
 
-  const sySchools = allRows.filter(r =>
-    r.sy === selectedSY && schoolInRange(r, from, to)
-  );
-
-  const lists = { Elementary: [], Middle: [], High: [] };
-  sySchools.forEach(r => {
-    if (typeFilter !== 'ALL' && r.type !== typeFilter) return;
-    if (lists[r.type]) lists[r.type].push(r);
+  const lists = {Elementary:[],Middle:[],High:[]};
+  syRows.forEach(r => {
+    if(typeFilter!=='ALL'&&r.type!==typeFilter) return;
+    if(lists[r.type]) lists[r.type].push(r);
   });
 
-  // Shared pool
-  const allScheduled = [...lists.Elementary, ...lists.Middle, ...lists.High];
-  const pairsConsumed = allScheduled.reduce((sum, r) => sum + pairsForSchool(r), 0);
-  const pairsRemaining = inventoryLoaded ? Math.max(0, totalInventory - pairsConsumed) : null;
+  // ── SHARED POOL ──
+  // Step 1: total pairs consumed by ALL scheduled schools
+  const allSch = [...lists.Elementary,...lists.Middle,...lists.High];
+  const consumed = allSch.reduce((sum,r)=>sum+pairsFor(r),0);
 
-  // Max simultaneous per type (scales with inventory via peak simulation)
-  const maxSim = {};
-  ['Elementary','Middle','High'].forEach(t => { maxSim[t] = maxSimultaneous(t); });
+  // Step 2: pairs remaining in shared pool
+  const remaining = inventoryLoaded ? Math.max(0, totalInventory - consumed) : null;
 
-  // Extra slots = how many more of each type fit in the REMAINING shared pool
-  // pairsRemaining already accounts for ALL scheduled schools across all types
+  // Step 3: extra slots per type = remaining pool / that type's peak pairs-per-school
+  // This correctly cross-subtracts: 14 elementaries consuming 1400 pairs leaves only
+  // ~1400 pairs for middle and high combined
   const extraSlots = {};
   ['Elementary','Middle','High'].forEach(t => {
-    if (!inventoryLoaded) { extraSlots[t] = 5; return; }
-    const pps = peakPairsPerSchool[t] || typeAvgs[t] || 100;
-    extraSlots[t] = Math.max(0, Math.floor(pairsRemaining / pps));
+    if (remaining === null) { extraSlots[t] = 3; return; }
+    const pps = peakPPS[t] || typeAvgs[t] || 100;
+    extraSlots[t] = Math.max(0, Math.floor(remaining / pps));
   });
 
   // Pool bar
   if (inventoryLoaded) {
     document.getElementById('poolCard').style.display = 'block';
-    const pct = Math.min(100, Math.round((pairsConsumed / totalInventory) * 100));
+    const pct = Math.min(100, Math.round(consumed/totalInventory*100));
     const fill = document.getElementById('poolFill');
-    fill.style.width = pct + '%';
-    fill.className = 'pool-fill ' + (pct >= 90 ? 'danger' : pct >= 70 ? 'warn' : 'safe');
-    document.getElementById('poolText').textContent =
-      `${pairsConsumed.toLocaleString()} / ${totalInventory.toLocaleString()} pairs`;
-    document.getElementById('poolRemaining').textContent =
-      pairsRemaining !== null
-        ? `~${pairsRemaining.toLocaleString()} pairs remaining`
-        : '';
+    fill.style.width = pct+'%';
+    fill.className = 'pool-fill '+(pct>=90?'danger':pct>=70?'warn':'safe');
+    document.getElementById('poolText').textContent = consumed.toLocaleString()+' / '+totalInventory.toLocaleString()+' pairs';
+    document.getElementById('poolRemaining').textContent = remaining !== null
+      ? '~'+remaining.toLocaleString()+' pairs remaining  ·  +'+extraSlots.Elementary+'E  +'+extraSlots.Middle+'M  +'+extraSlots.High+'H possible'
+      : '';
   }
 
-  // Summary — show current count and remaining capacity from shared pool
+  // Summary
   ['Elementary','Middle','High'].forEach(t => {
     const sfx = t[0];
-    const count = lists[t].length;
-    const extra = extraSlots[t];
-    document.getElementById('sum'+sfx).textContent = count;
-    document.getElementById('cap'+sfx).textContent = inventoryLoaded ? `+${extra} more` : '';
-    document.getElementById('stat'+sfx).classList.toggle('warn', inventoryLoaded && extra === 0);
+    document.getElementById('sum'+sfx).textContent = lists[t].length;
+    document.getElementById('cap'+sfx).textContent = inventoryLoaded ? '+'+extraSlots[t]+' more' : '';
+    document.getElementById('stat'+sfx).classList.toggle('warn', inventoryLoaded && extraSlots[t]===0);
   });
 
-  renderSection('E', lists.Elementary, 'e', 'Elementary', extraSlots.Elementary, maxSim.Elementary);
-  renderSection('M', lists.Middle,     'm', 'Middle',     extraSlots.Middle,     maxSim.Middle);
-  renderSection('H', lists.High,       'h', 'High',       extraSlots.High,       maxSim.High);
+  renderSection('E',lists.Elementary,'e','Elementary',extraSlots.Elementary);
+  renderSection('M',lists.Middle,'m','Middle',extraSlots.Middle);
+  renderSection('H',lists.High,'h','High',extraSlots.High);
 }
 
-function blockCount(pairs) {
-  if (!pairs || pairs === 0) return 1;
-  if (pairs <= 120) return 1;
-  if (pairs <= 240) return 2;
-  return 3;
+function blockCount(p){return !p||p<=0?1:p<=120?1:p<=240?2:3;}
+
+function abbrev(name){
+  const skip=new Set(['the','of','and','a','an','at','in','for','school','elementary','middle','high','academy','junior']);
+  const words=name.split(/\s+/).filter(w=>!skip.has(w.toLowerCase()));
+  if(!words.length) return name.slice(0,3).toUpperCase();
+  return words.slice(0,3).map(w=>w[0].toUpperCase()).join('');
 }
 
-function abbrev(name) {
-  const skip = new Set(['the','of','and','a','an','at','in','for','school','elementary','middle','high','academy','junior']);
-  const words = name.split(/\s+/).filter(w => !skip.has(w.toLowerCase()));
-  if (!words.length) return name.slice(0,3).toUpperCase();
-  return words.slice(0,3).map(w => w[0].toUpperCase()).join('');
-}
+function renderSection(sfx,schools,cp,typeName,extra){
+  const blocksEl=document.getElementById('blocks'+sfx);
+  const metaEl=document.getElementById('meta'+sfx);
+  metaEl.textContent = schools.length+' scheduled';
 
-function renderSection(sfx, schools, colorPfx, typeName, extraSlots, maxSim) {
-  const blocksEl = document.getElementById('blocks'+sfx);
-  const metaEl   = document.getElementById('meta'+sfx);
-  metaEl.textContent = `${schools.length}${maxSim !== null ? ' / ' + maxSim : ''} scheduled`;
+  const slotCls = cp==='e'?'slot-e':cp==='m'?'slot-m':'slot-h';
+  let html='';
 
-  const slotClass = colorPfx==='e'?'slot-e':colorPfx==='m'?'slot-m':'slot-h';
-  const nearFull = extraSlots === 0;
-  let html = '';
-
-  schools.forEach(r => {
-    const pairs = pairsForSchool(r);
-    const n = blockCount(pairs);
-    const hist = schoolHistory[r.name];
-    const hasActual = r.hasSizes && r.total > 0;
-    const hasHistory = hist && hist.yearCount > 0;
-    const initials = abbrev(r.name);
-
-    const sourceLabel = hasActual
-      ? `Actual: ${r.total} pairs`
-      : hasHistory
-        ? `Avg: ~${hist.avgTotal} pairs (${hist.yearCount} yr${hist.yearCount>1?'s':''})`
-        : `Type avg: ~${pairs} pairs`;
-
-    const yearsList = hist
-      ? Object.entries(hist.years).sort(([a],[b])=>a-b)
-          .map(([yr,tot])=>`${yr}-${String(Number(yr)+1).slice(2)}: ${tot}`).join('<br>')
-      : '';
-
-    const tip = `<strong>${r.name}</strong><br>${r.start} → ${r.end}<br>${sourceLabel}`
-      + (hasHistory && !hasActual ? `<br>${yearsList}` : '');
-
-    for (let i = 0; i < n; i++) {
-      const intensity = n===1?1:i===0?1:i===1?2:3;
-      const cls = `f${colorPfx}${intensity}`;
-      const lbl = i===0 ? initials : '';
-      html += `<div class="block has-school ${cls}">${lbl}<div class="tooltip">${tip}</div></div>`;
+  schools.forEach(r=>{
+    const pairs=pairsFor(r), n=blockCount(pairs);
+    const hist=schoolHistory[r.name];
+    const hasActual=r.hasSizes&&r.total>0;
+    const hasHist=hist&&hist.yearCount>0;
+    const initials=abbrev(r.name);
+    const src=hasActual?'Actual: '+r.total+' pairs':hasHist?'Avg: ~'+hist.avgTotal+' pairs ('+hist.yearCount+'yr)':'Type avg: ~'+pairs+' pairs';
+    const yrs=hist?Object.entries(hist.years).sort(([a],[b])=>a-b).map(([y,t])=>y+'-'+String(Number(y)+1).slice(2)+': '+t).join('<br>'):'';
+    const tip='<strong>'+r.name+'</strong><br>'+r.start+' → '+r.end+'<br>'+src+(hasHist&&!hasActual?'<br>'+yrs:'');
+    for(let i=0;i<n;i++){
+      const intensity=n===1?1:i===0?1:i===1?2:3;
+      const lbl=i===0?initials:'';
+      html+='<div class="block has-school f'+cp+intensity+'">'+lbl+'<div class="tooltip">'+tip+'</div></div>';
     }
   });
 
-  // Empty slots up to max
-  const filledBlocks = schools.reduce((sum, r) => sum + blockCount(pairsForSchool(r)), 0);
-  const showEmpty = Math.min(extraSlots, 20); // cap display at 20 empty slots
-  for (let i = 0; i < showEmpty; i++) {
-    html += `<div class="block ${nearFull ? 'slot-warn' : slotClass}"></div>`;
-  }
-  if (extraSlots > showEmpty) {
-    html += `<div class="block" style="border:none;font-size:10px;color:var(--muted);width:auto;padding:0 4px">+${extraSlots - showEmpty}</div>`;
-  }
+  // Empty slots from shared remaining pool — capped at 20 for display
+  const show = Math.min(extra, 20);
+  for(let i=0;i<show;i++) html+='<div class="block '+(extra===0?'slot-warn':slotCls)+'"></div>';
+  if(extra>show) html+='<div style="font-size:10px;color:var(--muted);padding:0 4px;display:flex;align-items:center">+'+( extra-show)+'</div>';
 
-  blocksEl.innerHTML = html;
+  blocksEl.innerHTML=html;
 }
 
-// ── INIT ──
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/visual-school-tracker/sw.js')
-      .catch(err => console.log('SW failed:', err));
+// ── SERVICE WORKER ──
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>{
+    navigator.serviceWorker.register('/visual-school-tracker/sw.js').catch(()=>{});
   });
 }
 
-// Load persisted data on startup
-loadFromStorage();
+loadSaved();
 </script>
 </body>
 </html>
