@@ -206,19 +206,34 @@ input[type=date]{width:100%;padding:9px 12px;border:2px solid var(--border);bord
 // ── CAPACITY (recalculated from inventory upload, fallback to historical) ──
 let CAPACITY = { Elementary: 21, Middle: 10, High: 5 };
 let inventoryLoaded = false;
+let lastInventory = {};
 
 const SIZES = ['J8','J9','J10','J11','J12','J13','1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16'];
 
-// avg size pairs per visit per type (from historical data)
-const AVG_BY_TYPE = {
-  Elementary: {J8:0.4,J9:0.8,J10:1.5,J11:2.8,J12:3.2,J13:3.8,'1':3.7,'2':3.9,'3':3.8,'4':3.6,'5':3.5,'6':3.5,'7':3.4,'8':2.8,'9':1.8,'10':1.1,'11':0.8,'12':0.5,'13':0.3,'14':0.1,'15':0.05,'16':0.02},
-  Middle:     {J8:0,J9:0,J10:0,J11:0.1,J12:0.1,J13:0.1,'1':0.2,'2':0.5,'3':0.9,'4':1.1,'5':1.2,'6':1.4,'7':1.7,'8':1.6,'9':1.4,'10':1.1,'11':0.6,'12':0.4,'13':0.2,'14':0.1,'15':0,'16':0},
-  High:       {J8:0,J9:0,J10:0,J11:0,J12:0,J13:0,'1':0,'2':0.1,'3':0.3,'4':0.5,'5':0.7,'6':1.2,'7':1.6,'8':1.7,'9':1.3,'10':1.2,'11':1.0,'12':0.5,'13':0.2,'14':0.2,'15':0.1,'16':0}
-};
+// Calculated dynamically from CSV rows once loaded
+let avgByType = null;
+
+function buildAvgByType(rows) {
+  const byType = { Elementary: [], Middle: [], High: [] };
+  rows.forEach(r => { if (byType[r.type]) byType[r.type].push(r); });
+  const result = {};
+  ['Elementary','Middle','High'].forEach(type => {
+    const tr = byType[type];
+    if (!tr.length) { result[type] = null; return; }
+    const avg = {};
+    SIZES.forEach(sz => {
+      avg[sz] = tr.reduce((sum, r) => sum + (r.sizeTotals ? (r.sizeTotals[sz] || 0) : 0), 0) / tr.length;
+    });
+    result[type] = avg;
+  });
+  return result;
+}
 
 function recalcCapacity(inventory) {
+  if (!avgByType) return;
   ['Elementary','Middle','High'].forEach(type => {
-    const avg = AVG_BY_TYPE[type];
+    const avg = avgByType[type];
+    if (!avg) return;
     let limiting = 9999;
     SIZES.forEach(sz => {
       const needed = avg[sz] || 0;
@@ -251,8 +266,9 @@ function handleXlsx(file) {
         }
       });
       if (!totalPairs) { showXlsxStatus('Could not read inventory — check SIZE and Total columns', false); return; }
-      recalcCapacity(inventory);
+      lastInventory = inventory;
       inventoryLoaded = true;
+      if (avgByType) recalcCapacity(inventory);
       showXlsxStatus(`✓ Inventory loaded — ${totalPairs.toLocaleString()} total pairs · E:${CAPACITY.Elementary} M:${CAPACITY.Middle} H:${CAPACITY.High} max slots`, true);
       // update summary bar caps
       document.getElementById('capE').textContent = '/ ' + CAPACITY.Elementary;
@@ -343,7 +359,7 @@ function parseCSV(text) {
     });
     const total = parseInt((cols[iTotal]||'').replace(/,/g,'')) || Object.values(sizeTotals).reduce((a,b)=>a+b,0);
     const safeTotal = total > 1000 ? Object.values(sizeTotals).reduce((a,b)=>a+b,0) : total;
-    rows.push({ name, type, start, end, total: safeTotal, sy: schoolYear(start) });
+    rows.push({ name, type, start, end, total: safeTotal, sizeTotals, sy: schoolYear(start) });
   }
   return { rows };
 }
@@ -376,6 +392,14 @@ function handleFile(file) {
     if (result.error) { showStatus(result.error, false); return; }
     allRows = result.rows;
     schoolAvgs = buildAverages(allRows);
+    avgByType = buildAvgByType(allRows);
+    if (inventoryLoaded) {
+      // re-run recalc with stored inventory
+      recalcCapacity(lastInventory);
+      document.getElementById('capE').textContent = '/ ' + CAPACITY.Elementary;
+      document.getElementById('capM').textContent = '/ ' + CAPACITY.Middle;
+      document.getElementById('capH').textContent = '/ ' + CAPACITY.High;
+    }
     const count2627 = allRows.filter(r => is2627(r.start)).length;
     showStatus(`✓ Loaded — ${count2627} scheduled 26–27 schools found`, true);
     render();
