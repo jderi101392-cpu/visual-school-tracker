@@ -1,17 +1,7 @@
-const CACHE = 'visual-school-tracker-v1';
-const ASSETS = [
-  '/visual-school-tracker/',
-  '/visual-school-tracker/index.html',
-  '/visual-school-tracker/manifest.json',
-  '/visual-school-tracker/icons/icon-192.png',
-  '/visual-school-tracker/icons/icon-512.png',
-  'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js'
-];
+const CACHE = 'visual-school-tracker-v2';
 
 self.addEventListener('install', e => {
-  e.waitUntil(
-    caches.open(CACHE).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting())
-  );
+  e.waitUntil(self.skipWaiting());
 });
 
 self.addEventListener('activate', e => {
@@ -23,12 +13,13 @@ self.addEventListener('activate', e => {
 });
 
 self.addEventListener('fetch', e => {
+  // Network-first: always try live version, fall back to cache if offline
   e.respondWith(
-    caches.match(e.request).then(cached => cached || fetch(e.request).then(res => {
+    fetch(e.request).then(res => {
       if (!res || res.status !== 200 || res.type === 'opaque') return res;
       const clone = res.clone();
       caches.open(CACHE).then(c => c.put(e.request, clone));
       return res;
-    }))
+    }).catch(() => caches.match(e.request))
   );
 });
