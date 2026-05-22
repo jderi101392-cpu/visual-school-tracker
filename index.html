@@ -75,7 +75,7 @@ input[type=date],select{width:100%;padding:9px 12px;border:2px solid var(--borde
 
 /* WEEK ROWS */
 .week-list{margin-bottom:10px}
-.week-row{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);margin-bottom:6px;overflow:hidden;cursor:pointer;transition:border-color .2s}
+.week-row{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);margin-bottom:6px;cursor:pointer;transition:border-color .2s}
 .week-row:hover{border-color:var(--border2)}
 .week-row.expanded{border-color:var(--green-mid);box-shadow:var(--glow-green)}
 .week-header{padding:10px 14px;display:flex;align-items:center;gap:10px}
@@ -127,7 +127,7 @@ input[type=date],select{width:100%;padding:9px 12px;border:2px solid var(--borde
 .fh1{background:var(--yellow-bg);border:2px solid var(--yellow-mid);box-shadow:var(--glow-yellow);color:var(--yellow)}
 .fh2{background:#FAC775;border:2px solid var(--yellow);color:var(--yellow)}
 .fh3{background:var(--yellow);border:2px solid var(--yellow);color:#fff}
-.tooltip{display:none;position:absolute;bottom:calc(100%+7px);left:50%;transform:translateX(-50%);background:var(--text);color:var(--surface);font-size:10px;padding:6px 9px;border-radius:6px;z-index:20;pointer-events:none;line-height:1.5;min-width:130px;max-width:200px;white-space:normal}
+.tooltip{display:none;position:absolute;bottom:calc(100%+7px);left:50%;transform:translateX(-50%);background:var(--text);color:var(--surface);font-size:10px;padding:6px 9px;border-radius:6px;z-index:200;pointer-events:none;line-height:1.5;min-width:130px;max-width:200px;white-space:normal}
 .tooltip::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:4px solid transparent;border-top-color:var(--text)}
 .block.has-school:hover .tooltip{display:block}
 .legend{font-size:10px;color:var(--muted);margin-top:8px;line-height:1.8}
@@ -531,10 +531,25 @@ function renderWeeks(weeks,syRows){
     });
     detailHtml+=`<div class="legend">1 block = 1–120 pairs · 2 = 121–240 · 3 = 241+ · Hover for school details</div>`;
 
+    // Build summary counts: schools and filled blocks per type
+    const summary = {};
+    ['Elementary','Middle','High'].forEach(t=>{
+      const schools = lists[t].length;
+      const blocks = lists[t].reduce((sum,r)=>sum+blockCount(pairsFor(r)),0);
+      summary[t] = {schools,blocks};
+    });
+    const summaryHtml = ['Elementary','Middle','High'].map((t,ti)=>{
+      if(summary[t].schools===0) return '';
+      const colors=['var(--green)','var(--blue)','var(--yellow)'];
+      const abbr=['E','M','H'];
+      return `<div style="font-size:10px;color:${colors[ti]};font-weight:600;white-space:nowrap">${abbr[ti]}: ${summary[t].schools} sch · ${summary[t].blocks} blk</div>`;
+    }).filter(Boolean).join('');
+
     return `<div class="week-row${isExp?' expanded':''}" id="${wid}">
       <div class="week-header" onclick="toggleWeek('${wid}')">
         <div class="week-dates${hasSchools?'':' empty'}">${dateLbl}</div>
         <div class="week-blocks-mini">${miniHtml||'<span style="font-size:11px;color:var(--muted)">No schools</span>'}</div>
+        ${summaryHtml?`<div style="display:flex;flex-direction:column;gap:2px;flex-shrink:0;margin-left:4px">${summaryHtml}</div>`:''}
         <div class="week-chevron">▼</div>
       </div>
       <div class="week-detail">${detailHtml}</div>
