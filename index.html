@@ -33,19 +33,22 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:10px 14px;display:flex;align-items:center;gap:8px;position:sticky;top:0;z-index:100}
 .topbar-title{font-size:14px;font-weight:600;letter-spacing:.5px}
 .topbar-sub{font-size:11px;color:var(--muted)}
-.upload-zone{border:2px dashed var(--border2);border-radius:var(--radius-lg);padding:20px;text-align:center;cursor:pointer;transition:all .2s;background:var(--surface);margin-bottom:12px}
-.upload-zone:hover,.upload-zone.drag{border-color:var(--blue-mid);background:var(--blue-bg);box-shadow:var(--glow-blue)}
+.upload-zone{border:2px dashed var(--border2);border-radius:var(--radius-lg);padding:16px;text-align:center;cursor:pointer;transition:all .2s;background:var(--surface);margin-bottom:10px}
+.upload-zone:hover,.upload-zone.drag{border-color:var(--blue-mid);background:var(--blue-bg)}
 .upload-zone input{display:none}
-.upload-icon{font-size:28px;margin-bottom:6px}
+.upload-icon{font-size:24px;margin-bottom:4px}
 .upload-label{font-size:13px;font-weight:500}
-.upload-hint{font-size:11px;color:var(--muted);margin-top:4px}
-.upload-status{font-size:12px;font-weight:500;padding:8px 12px;border-radius:var(--radius);margin-bottom:12px;display:none}
+.upload-hint{font-size:11px;color:var(--muted);margin-top:3px}
+.upload-status{font-size:12px;font-weight:500;padding:7px 12px;border-radius:var(--radius);margin-bottom:10px;display:none}
 .upload-status.ok{background:var(--green-bg);color:var(--green);border:1px solid var(--green-light);display:block}
 .upload-status.err{background:var(--red-bg);color:var(--red-text);border:1px solid var(--red-mid);display:block}
 .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:14px;margin-bottom:10px}
 label{font-size:12px;color:var(--muted);display:block;margin-bottom:3px}
 input[type=date],select{width:100%;padding:9px 12px;border:2px solid var(--border);border-radius:var(--radius);background:var(--surface);color:var(--text);font-size:14px;margin-bottom:8px;font-family:inherit;outline:none;transition:all .2s}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.row3{display:grid;grid-template-columns:1fr auto auto;gap:6px;align-items:end;margin-bottom:8px}
+.nav-btn{padding:9px 12px;border:2px solid var(--border);border-radius:var(--radius);background:var(--surface);color:var(--text);font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap;transition:all .2s}
+.nav-btn:hover{border-color:var(--blue-mid);color:var(--blue)}
 .toggle-row{display:flex;align-items:center;gap:8px;margin-bottom:10px}
 .toggle{width:36px;height:20px;background:var(--border);border-radius:10px;cursor:pointer;position:relative;transition:background .2s;flex-shrink:0;border:none}
 .toggle.on{background:var(--yellow-mid);box-shadow:var(--glow-yellow)}
@@ -53,35 +56,62 @@ input[type=date],select{width:100%;padding:9px 12px;border:2px solid var(--borde
 .toggle.on::after{transform:translateX(16px)}
 .mm-label{font-size:13px;font-weight:500;transition:color .2s}
 .mm-label.on{color:var(--yellow-mid)}
-.filter-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
-.chip{padding:6px 12px;border-radius:20px;border:2px solid var(--border);background:var(--surface);font-size:12px;font-weight:500;cursor:pointer;color:var(--muted);transition:all .2s}
-.chip.ca{border:2px solid var(--text);color:var(--text);box-shadow:0 0 0 2px var(--text)}
-.chip.ce{border:2px solid var(--green-mid);color:var(--green);box-shadow:var(--glow-green)}
-.chip.cm{border:2px solid var(--blue-mid);color:var(--blue);box-shadow:var(--glow-blue)}
-.chip.ch{border:2px solid var(--yellow-mid);color:var(--yellow);box-shadow:var(--glow-yellow)}
-.pool-bar-wrap{margin-bottom:10px}
-.pool-label{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:5px}
+.filter-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:0}
+.chip{padding:5px 11px;border-radius:20px;border:2px solid var(--border);background:var(--surface);font-size:12px;font-weight:500;cursor:pointer;color:var(--muted);transition:all .2s}
+.chip.ca{border:2px solid var(--text);color:var(--text)}
+.chip.ce{border:2px solid var(--green-mid);color:var(--green)}
+.chip.cm{border:2px solid var(--blue-mid);color:var(--blue)}
+.chip.ch{border:2px solid var(--yellow-mid);color:var(--yellow)}
+
+/* POOL BAR */
+.pool-bar-wrap{margin-bottom:8px}
+.pool-label{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:4px}
 .pool-label span:last-child{font-weight:600;color:var(--text)}
-.pool-track{height:10px;background:var(--surface2);border-radius:10px;overflow:hidden;border:1px solid var(--border)}
+.pool-track{height:8px;background:var(--surface2);border-radius:10px;overflow:hidden;border:1px solid var(--border)}
 .pool-fill{height:100%;border-radius:10px;transition:width .3s,background .3s}
 .pool-fill.safe{background:var(--green-mid)}
 .pool-fill.warn{background:var(--yellow-mid)}
 .pool-fill.danger{background:var(--red-mid)}
-.summary-bar{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px}
-.stat-box{background:var(--surface2);border-radius:var(--radius);padding:10px;text-align:center;border:1px solid var(--border)}
-.stat-num{font-size:20px;font-weight:600}
-.stat-sub{font-size:10px;color:var(--muted);margin-top:1px}
-.stat-lbl{font-size:10px;color:var(--muted);margin-top:1px;text-transform:uppercase;letter-spacing:.3px}
-.stat-box.elem .stat-num{color:var(--green)}
-.stat-box.mid .stat-num{color:var(--blue)}
-.stat-box.high .stat-num{color:var(--yellow)}
-.stat-box.warn .stat-num{color:var(--red-mid)}
-.tracker-section{margin-bottom:16px}
-.tracker-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
-.tracker-label{font-size:13px;font-weight:600}
+
+/* WEEK ROWS */
+.week-list{margin-bottom:10px}
+.week-row{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);margin-bottom:6px;overflow:hidden;cursor:pointer;transition:border-color .2s}
+.week-row:hover{border-color:var(--border2)}
+.week-row.expanded{border-color:var(--green-mid);box-shadow:var(--glow-green)}
+.week-header{padding:10px 14px;display:flex;align-items:center;gap:10px}
+.week-dates{font-size:12px;font-weight:600;min-width:110px;flex-shrink:0}
+.week-dates.empty{color:var(--muted);font-weight:400}
+.week-blocks-mini{display:flex;flex-wrap:wrap;gap:3px;flex:1}
+
+/* mini blocks — no text, just color */
+.mb{width:18px;height:18px;border-radius:3px;flex-shrink:0}
+.mb-e1{background:var(--green-bg);border:1.5px solid var(--green-mid)}
+.mb-e2{background:#C0DD97;border:1.5px solid var(--green)}
+.mb-e3{background:var(--green);border:1.5px solid var(--green)}
+.mb-m1{background:var(--blue-bg);border:1.5px solid var(--blue-mid)}
+.mb-m2{background:#B5D4F4;border:1.5px solid var(--blue)}
+.mb-m3{background:var(--blue);border:1.5px solid var(--blue)}
+.mb-h1{background:var(--yellow-bg);border:1.5px solid var(--yellow-mid)}
+.mb-h2{background:#FAC775;border:1.5px solid var(--yellow)}
+.mb-h3{background:var(--yellow);border:1.5px solid var(--yellow)}
+.mb-slot-e{background:var(--surface2);border:1.5px dashed var(--green-light)}
+.mb-slot-m{background:var(--surface2);border:1.5px dashed var(--blue-light)}
+.mb-slot-h{background:var(--surface2);border:1.5px dashed var(--yellow-light)}
+.mb-slot-warn{background:var(--red-bg);border:1.5px dashed var(--red-mid)}
+.week-chevron{font-size:11px;color:var(--muted);transition:transform .2s;flex-shrink:0}
+.week-row.expanded .week-chevron{transform:rotate(180deg)}
+.week-pool{padding:0 14px 8px;display:none}
+.week-row.expanded .week-pool{display:block}
+
+/* EXPANDED DETAIL */
+.week-detail{padding:0 14px 14px;display:none;border-top:1px solid var(--border)}
+.week-row.expanded .week-detail{display:block}
+.tracker-section{margin-top:12px}
+.tracker-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.tracker-label{font-size:12px;font-weight:600}
 .tracker-meta{font-size:11px;color:var(--muted)}
-.tracker-blocks{display:flex;flex-wrap:wrap;gap:5px}
-.block{width:36px;height:36px;border-radius:6px;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:600;cursor:default;transition:all .15s;position:relative;letter-spacing:-.2px;line-height:1.1;text-align:center;flex-shrink:0}
+.tracker-blocks{display:flex;flex-wrap:wrap;gap:4px}
+.block{width:32px;height:32px;border-radius:5px;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:600;cursor:default;position:relative;letter-spacing:-.2px;line-height:1.1;text-align:center;flex-shrink:0}
 .block.has-school{cursor:pointer}
 .block.has-school:hover{transform:scale(1.1);z-index:10}
 .slot-e{background:var(--surface2);border:2px dashed var(--green-light)}
@@ -97,14 +127,14 @@ input[type=date],select{width:100%;padding:9px 12px;border:2px solid var(--borde
 .fh1{background:var(--yellow-bg);border:2px solid var(--yellow-mid);box-shadow:var(--glow-yellow);color:var(--yellow)}
 .fh2{background:#FAC775;border:2px solid var(--yellow);color:var(--yellow)}
 .fh3{background:var(--yellow);border:2px solid var(--yellow);color:#fff}
-.tooltip{display:none;position:absolute;bottom:calc(100% + 7px);left:50%;transform:translateX(-50%);background:var(--text);color:var(--surface);font-size:10px;padding:6px 9px;border-radius:6px;z-index:20;pointer-events:none;line-height:1.5;min-width:130px;max-width:200px;white-space:normal}
+.tooltip{display:none;position:absolute;bottom:calc(100%+7px);left:50%;transform:translateX(-50%);background:var(--text);color:var(--surface);font-size:10px;padding:6px 9px;border-radius:6px;z-index:20;pointer-events:none;line-height:1.5;min-width:130px;max-width:200px;white-space:normal}
 .tooltip::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:4px solid transparent;border-top-color:var(--text)}
 .block.has-school:hover .tooltip{display:block}
-.legend{font-size:11px;color:var(--muted);margin-top:6px;line-height:1.8}
+.legend{font-size:10px;color:var(--muted);margin-top:8px;line-height:1.8}
 .section{padding:12px}
-.no-data{text-align:center;padding:2.5rem 1rem}
-.no-data-icon{font-size:40px;margin-bottom:10px}
-.no-data-title{font-size:15px;font-weight:600;margin-bottom:6px}
+.no-data{text-align:center;padding:2rem 1rem}
+.no-data-icon{font-size:36px;margin-bottom:8px}
+.no-data-title{font-size:14px;font-weight:600;margin-bottom:5px}
 .no-data-hint{font-size:12px;color:var(--muted);line-height:1.6}
 .hidden{display:none!important}
 </style>
@@ -119,6 +149,7 @@ input[type=date],select{width:100%;padding:9px 12px;border:2px solid var(--borde
 </div>
 <div class="section">
 
+  <!-- UPLOADS -->
   <div class="upload-zone" id="xlsxZone" onclick="document.getElementById('xlsxFile').click()" ondragover="onDragX(event,true)" ondragleave="onDragX(event,false)" ondrop="onDropX(event)">
     <input type="file" id="xlsxFile" accept=".xlsx" onchange="handleXlsx(this.files[0])">
     <div class="upload-icon">📊</div>
@@ -135,25 +166,29 @@ input[type=date],select{width:100%;padding:9px 12px;border:2px solid var(--borde
   </div>
   <div class="upload-status" id="uploadStatus"></div>
 
+  <!-- FILTERS -->
   <div class="card">
     <label>School Year</label>
     <select id="yearSelect" onchange="onYearChange()" style="margin-bottom:12px">
       <option value="">— upload CSV to populate —</option>
     </select>
     <div class="toggle-row">
-      <button class="toggle on" id="dtToggle" onclick="toggleDtMode()"></button>
-      <span class="mm-label on" id="dtLabel">Date range</span>
+      <button class="toggle" id="dtToggle" onclick="toggleDtMode()"></button>
+      <span class="mm-label" id="dtLabel">Filter by date range</span>
     </div>
-    <div id="dtRange">
-      <div class="row2">
-        <div><label>From</label><input type="date" id="dtFrom" onchange="render()"></div>
-        <div><label>To</label><input type="date" id="dtTo" onchange="render()"></div>
+    <div id="dtSection" class="hidden">
+      <div class="row3">
+        <div>
+          <label>From</label>
+          <input type="date" id="dtFrom" onchange="render()" style="margin-bottom:0">
+        </div>
+        <button class="nav-btn" onclick="shiftDates(-7)" title="Back 7 days">← 7d</button>
+        <button class="nav-btn" onclick="shiftDates(7)" title="Forward 7 days">7d →</button>
       </div>
+      <label>To</label>
+      <input type="date" id="dtTo" onchange="render()">
     </div>
-    <div id="dtSingle" class="hidden">
-      <label>Date</label><input type="date" id="dtOne" onchange="render()">
-    </div>
-    <div class="filter-row" style="margin-bottom:0">
+    <div class="filter-row">
       <button class="chip ca" onclick="setFilter('ALL',this)">All</button>
       <button class="chip" onclick="setFilter('Elementary',this)">Elementary</button>
       <button class="chip" onclick="setFilter('Middle',this)">Middle</button>
@@ -161,244 +196,171 @@ input[type=date],select{width:100%;padding:9px 12px;border:2px solid var(--borde
     </div>
   </div>
 
-  <div class="card" id="poolCard" style="display:none">
-    <div class="pool-bar-wrap">
-      <div class="pool-label"><span>Shared Inventory Pool</span><span id="poolText">0 / 0 pairs</span></div>
-      <div class="pool-track"><div class="pool-fill safe" id="poolFill" style="width:0%"></div></div>
-    </div>
-    <div style="font-size:11px;color:var(--muted);margin-top:4px" id="poolRemaining"></div>
+  <!-- WEEKLY LIST -->
+  <div id="noDataState" class="no-data">
+    <div class="no-data-icon">📋</div>
+    <div class="no-data-title">No data loaded</div>
+    <div class="no-data-hint">Upload your inventory (.xlsx) and Google Sheet (.csv) to get started</div>
   </div>
-
-  <div class="summary-bar">
-    <div class="stat-box elem" id="statE"><div class="stat-num" id="sumE">0</div><div class="stat-sub" id="capE"></div><div class="stat-lbl">Elementary</div></div>
-    <div class="stat-box mid"  id="statM"><div class="stat-num" id="sumM">0</div><div class="stat-sub" id="capM"></div><div class="stat-lbl">Middle</div></div>
-    <div class="stat-box high" id="statH"><div class="stat-num" id="sumH">0</div><div class="stat-sub" id="capH"></div><div class="stat-lbl">High</div></div>
-  </div>
-
-  <div class="card">
-    <div id="noDataState" class="no-data">
-      <div class="no-data-icon">📋</div>
-      <div class="no-data-title">No data loaded</div>
-      <div class="no-data-hint">Upload your inventory (.xlsx) and Google Sheet (.csv) to get started</div>
-    </div>
-    <div id="trackerContent" class="hidden">
-      <div class="tracker-section">
-        <div class="tracker-header"><span class="tracker-label" style="color:var(--green)">Elementary</span><span class="tracker-meta" id="metaE"></span></div>
-        <div class="tracker-blocks" id="blocksE"></div>
-      </div>
-      <div class="tracker-section">
-        <div class="tracker-header"><span class="tracker-label" style="color:var(--blue)">Middle</span><span class="tracker-meta" id="metaM"></span></div>
-        <div class="tracker-blocks" id="blocksM"></div>
-      </div>
-      <div class="tracker-section">
-        <div class="tracker-header"><span class="tracker-label" style="color:var(--yellow)">High</span><span class="tracker-meta" id="metaH"></span></div>
-        <div class="tracker-blocks" id="blocksH"></div>
-      </div>
-      <div class="legend">1 block = 1–120 pairs &nbsp;·&nbsp; 2 = 121–240 &nbsp;·&nbsp; 3 = 241+<br>Dashed = open slot &nbsp;·&nbsp; Hover for school details</div>
-    </div>
-  </div>
+  <div class="week-list" id="weekList"></div>
 
 </div>
 </div>
 <script>
-// ── VERSION — bump this to bust localStorage cache ──
-const APP_VERSION = 'v4';
-const LS_CSV = 'vst_csv_' + APP_VERSION;
-const LS_INV = 'vst_inv_' + APP_VERSION;
-
-// Clear any old version keys
-Object.keys(localStorage).forEach(k => {
-  if ((k.startsWith('vst_csv_') || k.startsWith('vst_inv_') || k === 'vst_csv_rows' || k === 'vst_inventory') && k !== LS_CSV && k !== LS_INV) {
-    localStorage.removeItem(k);
-  }
+const APP_VERSION = 'v5';
+const LS_CSV = 'vst_csv_'+APP_VERSION;
+const LS_INV = 'vst_inv_'+APP_VERSION;
+// clear old keys
+Object.keys(localStorage).forEach(k=>{
+  if((k.startsWith('vst_csv_')||k.startsWith('vst_inv_')||k==='vst_csv_rows'||k==='vst_inventory')&&k!==LS_CSV&&k!==LS_INV) localStorage.removeItem(k);
 });
 
-const SIZES = ['J8','J9','J10','J11','J12','J13','1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16'];
+const SIZES=['J8','J9','J10','J11','J12','J13','1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16'];
+const DAYS=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
-let allRows        = [];
-let schoolHistory  = {};
-let typeAvgs       = {};
-let peakPPS        = {}; // peak pairs-per-school per type from simulation
-let totalInventory = 0;
-let inventoryLoaded = false;
-let typeFilter     = 'ALL';
-let dtRangeMode    = true;
-let selectedSY     = null;
+let allRows=[],schoolHistory={},typeAvgs={},peakPPS={};
+let totalInventory=0,inventoryLoaded=false;
+let typeFilter='ALL',dtMode=false,selectedSY=null;
+let expandedWeek=null;
 
 // ── DATE HELPERS ──
-function parseDate(str) {
-  if (!str) return null;
-  str = str.trim();
-  if (/^\d{4}-\d{2}-\d{2}$/.test(str)) {
-    const [y,m,d] = str.split('-').map(Number);
-    return new Date(y,m-1,d);
+function parseDate(str){
+  if(!str) return null;
+  str=str.trim();
+  if(/^\d{4}-\d{2}-\d{2}$/.test(str)){const[y,m,d]=str.split('-').map(Number);return new Date(y,m-1,d);}
+  const p=str.split('/');if(p.length<3)return null;
+  let[m,d,y]=p.map(Number);if(y<100)y+=2000;return new Date(y,m-1,d);
+}
+function toISO(dt){return dt.toISOString().slice(0,10);}
+function fmtDate(dt){return MONTHS[dt.getMonth()]+' '+dt.getDate();}
+function schoolYear(s){const dt=parseDate(s);if(!dt)return null;const m=dt.getMonth()+1,y=dt.getFullYear();return m>=6?y:y-1;}
+function syLabel(sy){return sy+'–'+String(sy+1).slice(2);}
+
+// Get Monday of the week containing dt
+function weekStart(dt){
+  const d=new Date(dt);
+  const day=d.getDay();
+  const diff=day===0?-6:1-day; // shift to Monday
+  d.setDate(d.getDate()+diff);
+  return d;
+}
+
+// Generate all Mon-Fri weeks in a school year (June1 - May31)
+function getWeeksForSY(sy){
+  const start=new Date(sy,5,1); // June 1
+  const end=new Date(sy+1,4,31); // May 31
+  const weeks=[];
+  let mon=weekStart(start);
+  // if weekStart is before June 1, advance to next Monday
+  if(mon<start) mon=new Date(mon.getTime()+7*86400000);
+  while(mon<=end){
+    const fri=new Date(mon.getTime()+4*86400000);
+    weeks.push({mon:new Date(mon),fri:new Date(fri)});
+    mon=new Date(mon.getTime()+7*86400000);
   }
-  const p = str.split('/');
-  if (p.length < 3) return null;
-  let [m,d,y] = p.map(Number);
-  if (y < 100) y += 2000;
-  return new Date(y,m-1,d);
+  return weeks;
 }
-function schoolYear(s) {
-  const dt = parseDate(s);
-  if (!dt) return null;
-  const m = dt.getMonth()+1, y = dt.getFullYear();
-  return m >= 6 ? y : y-1;
-}
-function syLabel(sy) { return sy + '–' + String(sy+1).slice(2); }
 
 // ── CSV PARSE ──
-function parseCSV(text) {
-  const lines = text.split(/\r?\n/).filter(l => l.trim());
-  const hdr = lines[0].split(',').map(h => h.trim());
-  const iS = hdr.indexOf('Start Date'), iE = hdr.indexOf('End Date');
-  const iN = hdr.indexOf('School Name'), iT = hdr.indexOf('School Type');
-  const iTot = hdr.indexOf('Total');
-  if ([iS,iE,iN,iT,iTot].some(i => i===-1)) return {error:'CSV missing required columns'};
-  const rows = [];
-  for (let i = 1; i < lines.length; i++) {
-    const c = lines[i].split(',');
-    const name = (c[iN]||'').trim(), type = (c[iT]||'').trim();
-    const start = (c[iS]||'').trim(), end = (c[iE]||'').trim();
-    if (!name || !['Elementary','Middle','High'].includes(type)) continue;
-    const sz = {}; let hasSizes = false;
-    SIZES.forEach(s => {
-      const idx = hdr.indexOf(s);
-      const v = idx>=0 ? Math.min(100, parseInt((c[idx]||'').replace(/,/g,''))||0) : 0;
-      sz[s] = v; if (v>0) hasSizes = true;
-    });
-    const rawTot = parseInt((c[iTot]||'').replace(/,/g,''))||0;
-    const szSum = Object.values(sz).reduce((a,b)=>a+b,0);
-    const total = (rawTot > 1000 || rawTot === 0) ? szSum : rawTot;
-    const sy = schoolYear(start);
-    if (!sy || !start) continue;
+function parseCSV(text){
+  const lines=text.split(/\r?\n/).filter(l=>l.trim());
+  const hdr=lines[0].split(',').map(h=>h.trim());
+  const iS=hdr.indexOf('Start Date'),iE=hdr.indexOf('End Date');
+  const iN=hdr.indexOf('School Name'),iT=hdr.indexOf('School Type'),iTot=hdr.indexOf('Total');
+  if([iS,iE,iN,iT,iTot].some(i=>i===-1)) return{error:'CSV missing required columns'};
+  const rows=[];
+  for(let i=1;i<lines.length;i++){
+    const c=lines[i].split(',');
+    const name=(c[iN]||'').trim(),type=(c[iT]||'').trim();
+    const start=(c[iS]||'').trim(),end=(c[iE]||'').trim();
+    if(!name||!['Elementary','Middle','High'].includes(type)) continue;
+    const sz={};let hasSizes=false;
+    SIZES.forEach(s=>{const idx=hdr.indexOf(s);const v=idx>=0?Math.min(100,parseInt((c[idx]||'').replace(/,/g,''))||0):0;sz[s]=v;if(v>0)hasSizes=true;});
+    const rawTot=parseInt((c[iTot]||'').replace(/,/g,''))||0;
+    const szSum=Object.values(sz).reduce((a,b)=>a+b,0);
+    const total=(rawTot>1000||rawTot===0)?szSum:rawTot;
+    const sy=schoolYear(start);if(!sy||!start) continue;
     rows.push({name,type,start,end,total,sz,hasSizes,sy});
   }
-  return {rows};
+  return{rows};
 }
 
-// ── PEAK DAY SIMULATION ──
-// Find peak pairs-out per type across all history.
-// peakPPS[type] = peak pairs out / schools out on that day.
-// This is the realistic inventory cost per school of that type.
-function buildPeakPPS(rows) {
-  const valid = rows.filter(r => r.total > 0 && parseDate(r.start) && parseDate(r.end));
-  if (!valid.length) return {Elementary:109,Middle:82,High:100};
-  const daily = {};
-  valid.forEach(r => {
-    let d = parseDate(r.start);
-    const end = parseDate(r.end);
-    while (d <= end) {
-      const k = d.toISOString().slice(0,10);
-      if (!daily[k]) daily[k] = {Elementary:{s:0,p:0},Middle:{s:0,p:0},High:{s:0,p:0}};
-      daily[k][r.type].s++;
-      daily[k][r.type].p += r.total;
-      d = new Date(d.getTime()+86400000);
+function buildPeakPPS(rows){
+  const valid=rows.filter(r=>r.total>0&&parseDate(r.start)&&parseDate(r.end));
+  if(!valid.length) return{Elementary:109,Middle:82,High:100};
+  const daily={};
+  valid.forEach(r=>{
+    let d=parseDate(r.start);const end=parseDate(r.end);
+    while(d<=end){
+      const k=toISO(d);
+      if(!daily[k]) daily[k]={Elementary:{s:0,p:0},Middle:{s:0,p:0},High:{s:0,p:0}};
+      daily[k][r.type].s++;daily[k][r.type].p+=r.total;
+      d=new Date(d.getTime()+86400000);
     }
   });
-  const peak = {Elementary:{s:0,p:0},Middle:{s:0,p:0},High:{s:0,p:0}};
-  Object.values(daily).forEach(day => {
-    ['Elementary','Middle','High'].forEach(t => {
-      if (day[t].p > peak[t].p) peak[t] = {...day[t]};
-    });
-  });
-  const result = {};
-  ['Elementary','Middle','High'].forEach(t => {
-    result[t] = peak[t].s > 0 ? Math.round(peak[t].p / peak[t].s) : 100;
-  });
-  return result;
+  const peak={Elementary:{s:0,p:0},Middle:{s:0,p:0},High:{s:0,p:0}};
+  Object.values(daily).forEach(day=>['Elementary','Middle','High'].forEach(t=>{if(day[t].p>peak[t].p)peak[t]={...day[t]};}));
+  const res={};
+  ['Elementary','Middle','High'].forEach(t=>{res[t]=peak[t].s>0?Math.round(peak[t].p/peak[t].s):100;});
+  return res;
 }
 
-function buildHistory(rows) {
-  const by = {};
-  rows.forEach(r => {
-    if (!by[r.name]) by[r.name] = {type:r.type,years:{}};
-    if (!by[r.name].years[r.sy]) by[r.name].years[r.sy] = 0;
-    by[r.name].years[r.sy] += r.total;
-  });
-  const h = {};
-  Object.entries(by).forEach(([name,data]) => {
-    const vals = Object.values(data.years).filter(v=>v>0);
-    h[name] = {type:data.type, avgTotal:vals.length?Math.round(vals.reduce((a,b)=>a+b,0)/vals.length):0, yearCount:vals.length, years:data.years};
-  });
+function buildHistory(rows){
+  const by={};
+  rows.forEach(r=>{if(!by[r.name])by[r.name]={type:r.type,years:{}};if(!by[r.name].years[r.sy])by[r.name].years[r.sy]=0;by[r.name].years[r.sy]+=r.total;});
+  const h={};
+  Object.entries(by).forEach(([name,data])=>{const vals=Object.values(data.years).filter(v=>v>0);h[name]={type:data.type,avgTotal:vals.length?Math.round(vals.reduce((a,b)=>a+b,0)/vals.length):0,yearCount:vals.length,years:data.years};});
   return h;
 }
-
-function buildTypeAvgs(rows) {
-  const a = {};
-  ['Elementary','Middle','High'].forEach(t => {
-    const tr = rows.filter(r=>r.type===t&&r.total>0);
-    a[t] = tr.length ? Math.round(tr.reduce((s,r)=>s+r.total,0)/tr.length) : 100;
-  });
+function buildTypeAvgs(rows){
+  const a={};
+  ['Elementary','Middle','High'].forEach(t=>{const tr=rows.filter(r=>r.type===t&&r.total>0);a[t]=tr.length?Math.round(tr.reduce((s,r)=>s+r.total,0)/tr.length):100;});
   return a;
 }
-
-function pairsFor(row) {
-  if (row.hasSizes && row.total > 0) return row.total;
-  const h = schoolHistory[row.name];
-  if (h && h.avgTotal > 0) return h.avgTotal;
-  return typeAvgs[row.type] || 100;
+function pairsFor(row){
+  if(row.hasSizes&&row.total>0) return row.total;
+  const h=schoolHistory[row.name];if(h&&h.avgTotal>0) return h.avgTotal;
+  return typeAvgs[row.type]||100;
 }
 
 // ── YEAR SELECTOR ──
-function populateYearSelect(rows) {
-  const years = [...new Set(rows.map(r=>r.sy))].sort((a,b)=>b-a);
-  const sel = document.getElementById('yearSelect');
-  sel.innerHTML = years.map(sy=>`<option value="${sy}">${syLabel(sy)} School Year</option>`).join('');
-  if (years.length) { selectedSY = years[0]; sel.value = selectedSY; }
-  document.getElementById('topbarSub').textContent = selectedSY ? syLabel(selectedSY)+' School Year' : '';
+function populateYearSelect(rows){
+  const years=[...new Set(rows.map(r=>r.sy))].sort((a,b)=>b-a);
+  const sel=document.getElementById('yearSelect');
+  sel.innerHTML=years.map(sy=>`<option value="${sy}">${syLabel(sy)} School Year</option>`).join('');
+  if(years.length){selectedSY=years[0];sel.value=selectedSY;}
+  document.getElementById('topbarSub').textContent=selectedSY?syLabel(selectedSY)+' School Year':'';
 }
-function onYearChange() {
-  const v = parseInt(document.getElementById('yearSelect').value);
-  if (!isNaN(v)) { selectedSY = v; document.getElementById('topbarSub').textContent = syLabel(v)+' School Year'; }
-  render();
-}
+function onYearChange(){const v=parseInt(document.getElementById('yearSelect').value);if(!isNaN(v)){selectedSY=v;document.getElementById('topbarSub').textContent=syLabel(v)+' School Year';}expandedWeek=null;render();}
 
 // ── PERSISTENCE ──
-function save() {
-  try { localStorage.setItem(LS_CSV, JSON.stringify(allRows)); localStorage.setItem(LS_INV, JSON.stringify(totalInventory)); } catch(e){}
-}
-function loadSaved() {
-  try {
-    const csvData = localStorage.getItem(LS_CSV);
-    const invData = localStorage.getItem(LS_INV);
-    if (csvData) {
-      allRows = JSON.parse(csvData);
-      schoolHistory = buildHistory(allRows);
-      typeAvgs = buildTypeAvgs(allRows);
-      peakPPS = buildPeakPPS(allRows);
-      populateYearSelect(allRows);
-      showStatus('✓ Restored from last session', true);
-    }
-    if (invData) {
-      totalInventory = JSON.parse(invData);
-      inventoryLoaded = totalInventory > 0;
-      if (inventoryLoaded) showXlsxStatus('✓ '+totalInventory.toLocaleString()+' pairs (restored)', true);
-    }
-    if (allRows.length) render();
-  } catch(e){}
+function save(){try{localStorage.setItem(LS_CSV,JSON.stringify(allRows));localStorage.setItem(LS_INV,JSON.stringify(totalInventory));}catch(e){}}
+function loadSaved(){
+  try{
+    const csvData=localStorage.getItem(LS_CSV),invData=localStorage.getItem(LS_INV);
+    if(csvData){allRows=JSON.parse(csvData);schoolHistory=buildHistory(allRows);typeAvgs=buildTypeAvgs(allRows);peakPPS=buildPeakPPS(allRows);populateYearSelect(allRows);showStatus('✓ Restored from last session',true);}
+    if(invData){totalInventory=JSON.parse(invData);inventoryLoaded=totalInventory>0;if(inventoryLoaded)showXlsxStatus('✓ '+totalInventory.toLocaleString()+' pairs (restored)',true);}
+    if(allRows.length) render();
+  }catch(e){}
 }
 
 // ── XLSX ──
-function handleXlsx(file) {
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = e => {
-    try {
-      const wb = XLSX.read(e.target.result,{type:'array'});
-      const ws = wb.Sheets[wb.SheetNames[0]];
-      const data = XLSX.utils.sheet_to_json(ws,{defval:''});
-      let total = 0;
-      data.forEach(row => {
-        const sz = String(row['SIZE']||'').trim();
-        const t = parseInt(String(row['Total']||'0').replace(/,/g,''))||0;
-        if (SIZES.includes(sz) && t > 0) total += t;
-      });
-      if (!total) { showXlsxStatus('Could not read — check SIZE and Total columns', false); return; }
-      totalInventory = total; inventoryLoaded = true; save();
-      showXlsxStatus('✓ '+total.toLocaleString()+' total pairs loaded', true);
-      if (allRows.length) render();
-    } catch(err) { showXlsxStatus('Error: '+err.message, false); }
+function handleXlsx(file){
+  if(!file) return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    try{
+      const wb=XLSX.read(e.target.result,{type:'array'});
+      const ws=wb.Sheets[wb.SheetNames[0]];
+      const data=XLSX.utils.sheet_to_json(ws,{defval:''});
+      let total=0;
+      data.forEach(row=>{const sz=String(row['SIZE']||'').trim();const t=parseInt(String(row['Total']||'0').replace(/,/g,''))||0;if(SIZES.includes(sz)&&t>0)total+=t;});
+      if(!total){showXlsxStatus('Could not read — check SIZE and Total columns',false);return;}
+      totalInventory=total;inventoryLoaded=true;save();
+      showXlsxStatus('✓ '+total.toLocaleString()+' total pairs loaded',true);
+      if(allRows.length) render();
+    }catch(err){showXlsxStatus('Error: '+err.message,false);}
   };
   reader.readAsArrayBuffer(file);
 }
@@ -407,20 +369,16 @@ function onDragX(e,over){e.preventDefault();document.getElementById('xlsxZone').
 function onDropX(e){e.preventDefault();document.getElementById('xlsxZone').classList.remove('drag');if(e.dataTransfer.files[0])handleXlsx(e.dataTransfer.files[0]);}
 
 // ── CSV ──
-function handleFile(file) {
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = e => {
-    const result = parseCSV(e.target.result);
-    if (result.error) { showStatus(result.error, false); return; }
-    allRows = result.rows;
-    schoolHistory = buildHistory(allRows);
-    typeAvgs = buildTypeAvgs(allRows);
-    peakPPS = buildPeakPPS(allRows);
-    populateYearSelect(allRows);
-    save();
-    showStatus('✓ Loaded '+allRows.filter(r=>r.sy===selectedSY).length+' schools for '+syLabel(selectedSY), true);
-    render();
+function handleFile(file){
+  if(!file) return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    const result=parseCSV(e.target.result);
+    if(result.error){showStatus(result.error,false);return;}
+    allRows=result.rows;schoolHistory=buildHistory(allRows);typeAvgs=buildTypeAvgs(allRows);peakPPS=buildPeakPPS(allRows);
+    populateYearSelect(allRows);save();
+    showStatus('✓ Loaded '+allRows.filter(r=>r.sy===selectedSY).length+' schools for '+syLabel(selectedSY),true);
+    expandedWeek=null;render();
   };
   reader.readAsText(file);
 }
@@ -430,94 +388,39 @@ function onDrop(e){e.preventDefault();document.getElementById('uploadZone').clas
 
 // ── DATE FILTER ──
 function toggleDtMode(){
-  dtRangeMode=!dtRangeMode;
-  document.getElementById('dtToggle').classList.toggle('on',dtRangeMode);
-  const lbl=document.getElementById('dtLabel');lbl.classList.toggle('on',dtRangeMode);
-  lbl.textContent=dtRangeMode?'Date range':'Single date';
-  document.getElementById('dtRange').classList.toggle('hidden',!dtRangeMode);
-  document.getElementById('dtSingle').classList.toggle('hidden',dtRangeMode);
-  render();
+  dtMode=!dtMode;
+  document.getElementById('dtToggle').classList.toggle('on',dtMode);
+  const lbl=document.getElementById('dtLabel');lbl.classList.toggle('on',dtMode);
+  lbl.textContent=dtMode?'Date range active':'Filter by date range';
+  document.getElementById('dtSection').classList.toggle('hidden',!dtMode);
+  expandedWeek=null;render();
 }
-function setFilter(f,btn){
-  typeFilter=f;
+function shiftDates(days){
+  const f=document.getElementById('dtFrom'),t=document.getElementById('dtTo');
+  const fd=parseDate(f.value),td=parseDate(t.value);
+  if(!fd||!td) return;
+  const ms=days*86400000;
+  f.value=toISO(new Date(fd.getTime()+ms));
+  t.value=toISO(new Date(td.getTime()+ms));
+  expandedWeek=null;render();
+}
+function setFilter(fi,btn){
+  typeFilter=fi;
   document.querySelectorAll('.filter-row .chip').forEach(b=>b.className='chip');
-  btn.classList.add(f==='ALL'?'ca':f==='Elementary'?'ce':f==='Middle'?'cm':'ch');
+  btn.classList.add(fi==='ALL'?'ca':fi==='Elementary'?'ce':fi==='Middle'?'cm':'ch');
   render();
 }
-function getDateFilter(){
-  if(dtRangeMode) return {from:document.getElementById('dtFrom').value,to:document.getElementById('dtTo').value};
-  const d=document.getElementById('dtOne').value; return {from:d,to:d};
-}
-function inRange(row,from,to){
-  if(!from&&!to) return true;
-  const s=parseDate(row.start),e=parseDate(row.end);
-  const f=from?parseDate(from):null,t=to?parseDate(to):null;
-  if(f&&e&&e<f) return false;
-  if(t&&s&&s>t) return false;
-  return true;
+
+// Schools active during a given week (Mon-Fri)
+function schoolsInWeek(rows,mon,fri){
+  return rows.filter(r=>{
+    const s=parseDate(r.start),e=parseDate(r.end);
+    if(!s||!e) return false;
+    return s<=fri&&e>=mon;
+  });
 }
 
-// ── RENDER ──
-function render(){
-  if(!allRows.length||!selectedSY) return;
-  document.getElementById('noDataState').classList.add('hidden');
-  document.getElementById('trackerContent').classList.remove('hidden');
-
-  const {from,to} = getDateFilter();
-  const syRows = allRows.filter(r => r.sy===selectedSY && inRange(r,from,to));
-
-  const lists = {Elementary:[],Middle:[],High:[]};
-  syRows.forEach(r => {
-    if(typeFilter!=='ALL'&&r.type!==typeFilter) return;
-    if(lists[r.type]) lists[r.type].push(r);
-  });
-
-  // ── SHARED POOL ──
-  // Step 1: total pairs consumed by ALL scheduled schools
-  const allSch = [...lists.Elementary,...lists.Middle,...lists.High];
-  const consumed = allSch.reduce((sum,r)=>sum+pairsFor(r),0);
-
-  // Step 2: pairs remaining in shared pool
-  const remaining = inventoryLoaded ? Math.max(0, totalInventory - consumed) : null;
-
-  // Step 3: extra slots per type = remaining pool / that type's peak pairs-per-school
-  // This correctly cross-subtracts: 14 elementaries consuming 1400 pairs leaves only
-  // ~1400 pairs for middle and high combined
-  const extraSlots = {};
-  ['Elementary','Middle','High'].forEach(t => {
-    if (remaining === null) { extraSlots[t] = 3; return; }
-    const pps = peakPPS[t] || typeAvgs[t] || 100;
-    extraSlots[t] = Math.max(0, Math.floor(remaining / pps));
-  });
-
-  // Pool bar
-  if (inventoryLoaded) {
-    document.getElementById('poolCard').style.display = 'block';
-    const pct = Math.min(100, Math.round(consumed/totalInventory*100));
-    const fill = document.getElementById('poolFill');
-    fill.style.width = pct+'%';
-    fill.className = 'pool-fill '+(pct>=90?'danger':pct>=70?'warn':'safe');
-    document.getElementById('poolText').textContent = consumed.toLocaleString()+' / '+totalInventory.toLocaleString()+' pairs';
-    document.getElementById('poolRemaining').textContent = remaining !== null
-      ? '~'+remaining.toLocaleString()+' pairs remaining  ·  +'+extraSlots.Elementary+'E  +'+extraSlots.Middle+'M  +'+extraSlots.High+'H possible'
-      : '';
-  }
-
-  // Summary
-  ['Elementary','Middle','High'].forEach(t => {
-    const sfx = t[0];
-    document.getElementById('sum'+sfx).textContent = lists[t].length;
-    document.getElementById('cap'+sfx).textContent = inventoryLoaded ? '+'+extraSlots[t]+' more' : '';
-    document.getElementById('stat'+sfx).classList.toggle('warn', inventoryLoaded && extraSlots[t]===0);
-  });
-
-  renderSection('E',lists.Elementary,'e','Elementary',extraSlots.Elementary);
-  renderSection('M',lists.Middle,'m','Middle',extraSlots.Middle);
-  renderSection('H',lists.High,'h','High',extraSlots.High);
-}
-
-function blockCount(p){return !p||p<=0?1:p<=120?1:p<=240?2:3;}
-
+function blockCount(p){return!p||p<=0?1:p<=120?1:p<=240?2:3;}
 function abbrev(name){
   const skip=new Set(['the','of','and','a','an','at','in','for','school','elementary','middle','high','academy','junior']);
   const words=name.split(/\s+/).filter(w=>!skip.has(w.toLowerCase()));
@@ -525,43 +428,131 @@ function abbrev(name){
   return words.slice(0,3).map(w=>w[0].toUpperCase()).join('');
 }
 
-function renderSection(sfx,schools,cp,typeName,extra){
-  const blocksEl=document.getElementById('blocks'+sfx);
-  const metaEl=document.getElementById('meta'+sfx);
-  metaEl.textContent = schools.length+' scheduled';
+// ── RENDER ──
+function render(){
+  if(!allRows.length||!selectedSY) return;
+  document.getElementById('noDataState').classList.add('hidden');
 
-  const slotCls = cp==='e'?'slot-e':cp==='m'?'slot-m':'slot-h';
-  let html='';
+  const syRows=allRows.filter(r=>r.sy===selectedSY);
 
-  schools.forEach(r=>{
-    const pairs=pairsFor(r), n=blockCount(pairs);
-    const hist=schoolHistory[r.name];
-    const hasActual=r.hasSizes&&r.total>0;
-    const hasHist=hist&&hist.yearCount>0;
-    const initials=abbrev(r.name);
-    const src=hasActual?'Actual: '+r.total+' pairs':hasHist?'Avg: ~'+hist.avgTotal+' pairs ('+hist.yearCount+'yr)':'Type avg: ~'+pairs+' pairs';
-    const yrs=hist?Object.entries(hist.years).sort(([a],[b])=>a-b).map(([y,t])=>y+'-'+String(Number(y)+1).slice(2)+': '+t).join('<br>'):'';
-    const tip='<strong>'+r.name+'</strong><br>'+r.start+' → '+r.end+'<br>'+src+(hasHist&&!hasActual?'<br>'+yrs:'');
-    for(let i=0;i<n;i++){
-      const intensity=n===1?1:i===0?1:i===1?2:3;
-      const lbl=i===0?initials:'';
-      html+='<div class="block has-school f'+cp+intensity+'">'+lbl+'<div class="tooltip">'+tip+'</div></div>';
+  let weeks;
+  if(dtMode){
+    const from=document.getElementById('dtFrom').value;
+    const to=document.getElementById('dtTo').value;
+    if(!from||!to){renderWeeks(getWeeksForSY(selectedSY),syRows);return;}
+    const fd=parseDate(from),td=parseDate(to);
+    // get all weeks that overlap with the range
+    weeks=getWeeksForSY(selectedSY).filter(w=>w.mon<=td&&w.fri>=fd);
+  } else {
+    weeks=getWeeksForSY(selectedSY);
+  }
+  renderWeeks(weeks,syRows);
+}
+
+function renderWeeks(weeks,syRows){
+  const list=document.getElementById('weekList');
+  if(!weeks.length){list.innerHTML='<div style="text-align:center;padding:2rem;color:var(--muted);font-size:13px">No weeks in range</div>';return;}
+
+  list.innerHTML=weeks.map((w,wi)=>{
+    const wid='week_'+wi;
+    const isExp=expandedWeek===wid;
+
+    // Get schools active this week, filtered by type
+    let wSchools=schoolsInWeek(syRows,w.mon,w.fri);
+    if(typeFilter!=='ALL') wSchools=wSchools.filter(r=>r.type===typeFilter);
+
+    const lists={Elementary:wSchools.filter(r=>r.type==='Elementary'),Middle:wSchools.filter(r=>r.type==='Middle'),High:wSchools.filter(r=>r.type==='High')};
+
+    // Shared pool for this week
+    const consumed=wSchools.reduce((s,r)=>s+pairsFor(r),0);
+    const remaining=inventoryLoaded?Math.max(0,totalInventory-consumed):null;
+    const extraSlots={};
+    ['Elementary','Middle','High'].forEach(t=>{
+      if(remaining===null){extraSlots[t]=3;return;}
+      const pps=peakPPS[t]||typeAvgs[t]||100;
+      extraSlots[t]=Math.max(0,Math.floor(remaining/pps));
+    });
+
+    // Mini blocks for overview
+    let miniHtml='';
+    const addMini=(type,cp)=>{
+      lists[type].forEach(r=>{
+        const n=blockCount(pairsFor(r));
+        for(let i=0;i<n;i++){
+          const intensity=n===1?1:i===0?1:i===1?2:3;
+          miniHtml+=`<div class="mb mb-${cp}${intensity}"></div>`;
+        }
+      });
+      // show a few empty slots
+      const show=Math.min(extraSlots[type],4);
+      const nearFull=extraSlots[type]===0;
+      for(let i=0;i<show;i++) miniHtml+=`<div class="mb mb-slot-${nearFull?'warn':cp}"></div>`;
+    };
+    addMini('Elementary','e');addMini('Middle','m');addMini('High','h');
+
+    const hasSchools=wSchools.length>0;
+    const dateLbl=fmtDate(w.mon)+' – '+fmtDate(w.fri);
+
+    // Pool bar for expanded view
+    const pct=inventoryLoaded?Math.min(100,Math.round(consumed/totalInventory*100)):0;
+    const poolCls=pct>=90?'danger':pct>=70?'warn':'safe';
+
+    // Expanded detail blocks
+    let detailHtml='';
+    if(inventoryLoaded){
+      detailHtml+=`<div style="margin-top:10px"><div class="pool-bar-wrap"><div class="pool-label"><span>Inventory Pool</span><span>${consumed.toLocaleString()} / ${totalInventory.toLocaleString()} pairs</span></div><div class="pool-track"><div class="pool-fill ${poolCls}" style="width:${pct}%"></div></div></div>`;
+      if(remaining!==null) detailHtml+=`<div style="font-size:11px;color:var(--muted);margin-top:3px">~${remaining.toLocaleString()} remaining · +${extraSlots.Elementary}E +${extraSlots.Middle}M +${extraSlots.High}H possible</div>`;
+      detailHtml+='</div>';
     }
-  });
 
-  // Empty slots from shared remaining pool — capped at 20 for display
-  const show = Math.min(extra, 20);
-  for(let i=0;i<show;i++) html+='<div class="block '+(extra===0?'slot-warn':slotCls)+'"></div>';
-  if(extra>show) html+='<div style="font-size:10px;color:var(--muted);padding:0 4px;display:flex;align-items:center">+'+( extra-show)+'</div>';
+    ['Elementary','Middle','High'].forEach((type,ti)=>{
+      const cp=['e','m','h'][ti];
+      const color=['var(--green)','var(--blue)','var(--yellow)'][ti];
+      const slotCls=['slot-e','slot-m','slot-h'][ti];
+      let bHtml='';
+      lists[type].forEach(r=>{
+        const pairs=pairsFor(r),n=blockCount(pairs);
+        const hist=schoolHistory[r.name];
+        const hasActual=r.hasSizes&&r.total>0,hasHist=hist&&hist.yearCount>0;
+        const src=hasActual?'Actual: '+r.total+' pairs':hasHist?'Avg: ~'+hist.avgTotal+' pairs ('+hist.yearCount+'yr)':'Type avg: ~'+pairs+' pairs';
+        const yrs=hist?Object.entries(hist.years).sort(([a],[b])=>a-b).map(([y,t])=>y+'-'+String(Number(y)+1).slice(2)+': '+t).join('<br>'):'';
+        const tip='<strong>'+r.name+'</strong><br>'+r.start+' → '+r.end+'<br>'+src+(hasHist&&!hasActual?'<br>'+yrs:'');
+        for(let i=0;i<n;i++){
+          const intensity=n===1?1:i===0?1:i===1?2:3;
+          const lbl=i===0?abbrev(r.name):'';
+          bHtml+=`<div class="block has-school f${cp}${intensity}">${lbl}<div class="tooltip">${tip}</div></div>`;
+        }
+      });
+      const showEmpty=Math.min(extraSlots[type],12);
+      const nearFull=extraSlots[type]===0;
+      for(let i=0;i<showEmpty;i++) bHtml+=`<div class="block ${nearFull?'slot-warn':slotCls}"></div>`;
+      if(extraSlots[type]>showEmpty) bHtml+=`<div style="font-size:10px;color:var(--muted);padding:0 4px;display:flex;align-items:center">+${extraSlots[type]-showEmpty}</div>`;
+      detailHtml+=`<div class="tracker-section"><div class="tracker-header"><span class="tracker-label" style="color:${color}">${type}</span><span class="tracker-meta">${lists[type].length} scheduled · +${extraSlots[type]} more possible</span></div><div class="tracker-blocks">${bHtml}</div></div>`;
+    });
+    detailHtml+=`<div class="legend">1 block = 1–120 pairs · 2 = 121–240 · 3 = 241+ · Hover for school details</div>`;
 
-  blocksEl.innerHTML=html;
+    return `<div class="week-row${isExp?' expanded':''}" id="${wid}">
+      <div class="week-header" onclick="toggleWeek('${wid}')">
+        <div class="week-dates${hasSchools?'':' empty'}">${dateLbl}</div>
+        <div class="week-blocks-mini">${miniHtml||'<span style="font-size:11px;color:var(--muted)">No schools</span>'}</div>
+        <div class="week-chevron">▼</div>
+      </div>
+      <div class="week-detail">${detailHtml}</div>
+    </div>`;
+  }).join('');
+}
+
+function toggleWeek(wid){
+  expandedWeek=expandedWeek===wid?null:wid;
+  render();
+  if(expandedWeek){
+    setTimeout(()=>{const el=document.getElementById(expandedWeek);if(el)el.scrollIntoView({behavior:'smooth',block:'nearest'});},50);
+  }
 }
 
 // ── SERVICE WORKER ──
 if('serviceWorker' in navigator){
-  window.addEventListener('load',()=>{
-    navigator.serviceWorker.register('/visual-school-tracker/sw.js').catch(()=>{});
-  });
+  window.addEventListener('load',()=>{navigator.serviceWorker.register('/visual-school-tracker/sw.js').catch(()=>{});});
 }
 
 loadSaved();
